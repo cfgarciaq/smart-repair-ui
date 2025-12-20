@@ -3,9 +3,9 @@ import type { Client } from "./Client";
 export interface Repair
 {
     id: number;
-    Device: string;
-    Description: string;
+    device: string;
+    description: string;
     cost: number;
     createdAt: string;
-    client: Client;
+    client?: Client;
 }

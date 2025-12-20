@@ -8,19 +8,21 @@ export default function RepairsList() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        async function loadRepairs() {
-            try {
-                const data = await getRepairs();
-                setRepairs(data);
-            } catch (err) {
-                setError('Failed to load repairs.');
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        loadRepairs();
-    }, []);
+        const fetch = async () => {
+          try {
+            setLoading(true);
+            const result = await getRepairs();
+            setRepairs(result.items ?? []);
+            setError(null);
+          } catch (e) {
+            console.error(e);
+            setError("Failed to load repairs.");
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetch();
+      }, []);
 
     if (loading) return <p>Loading repairs...</p>;
     if (error) return <p>{error}</p>;
@@ -34,9 +36,7 @@ export default function RepairsList() {
             <ul>
                 {repairs.map((repair) => (
                     <li key={repair.id}>
-                        <strong>{repair.device}</strong> 
-                        – {repair.description} 
-                        – € {repair.cost}
+                        <strong>{repair.device}</strong> – {repair.description} – € {repair.cost}
                     </li>
                 ))}
             </ul>

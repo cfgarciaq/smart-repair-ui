@@ -11,7 +11,7 @@ export default function RepairsList() {
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
+    const [totalItems, setTotalItems] = useState(0);
 
     useEffect(() => {
         const fetch = async () => {
@@ -25,7 +25,7 @@ export default function RepairsList() {
             // Update state with fetched data
             setRepairs(result.items ?? []); // Handle case where items might be undefined
             setTotalPages(result.totalPages); // Update total pages
-            setTotalCount(result.totalCount); // Update total count
+            setTotalItems(result.totalItems); // Update total count
 
             // Clear any previous errors
             setError(null);
@@ -69,7 +69,7 @@ export default function RepairsList() {
 
       <div style={{ marginTop: "1rem" }}>
         <p>
-          Page {page} of {totalPages} ({totalCount} total repairs)
+          Page {page} of {totalPages} ({totalItems} total repairs)
         </p>
 
         <button

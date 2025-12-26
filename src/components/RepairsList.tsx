@@ -9,25 +9,24 @@ export default function RepairsList() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Pagination state
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+
+    // Sort state - use lowercase to match backend
+    const [sortBy, setSortBy] = useState<'createdat' | 'cost' | 'device'>('createdat');
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
     useEffect(() => {
         const fetch = async () => {
           try {
             // Fetch repairs for the current page
             setLoading(true);
-
-            // Fetch repairs
-            const result = await getRepairs(page, PAGE_SIZE);
-
-            // Update state with fetched data
-            setRepairs(result.items ?? []); // Handle case where items might be undefined
-            setTotalPages(result.totalPages); // Update total pages
-            setTotalItems(result.totalItems); // Update total count
-
-            // Clear any previous errors
+            const result = await getRepairs(page, PAGE_SIZE, sortBy, sortDirection);
+            setRepairs(result.items ?? []);
+            setTotalPages(result.totalPages);
+            setTotalItems(result.totalItems);
             setError(null);
 
           } catch (e) {
@@ -44,8 +43,7 @@ export default function RepairsList() {
 
         // Initial fetch on component mount
         fetch();
-
-    }, [page]);
+    }, [page, sortBy, sortDirection]);
 
     // Render loading, error, or repairs list
     if (loading) return <p>Loading repairs...</p>;
@@ -56,6 +54,37 @@ export default function RepairsList() {
     return (
         <div>
       <h2>Repairs List</h2>
+
+      <div style={{ marginBottom: "0.75rem" }}>
+        <label>
+          Sort by:{" "}
+          <select
+            value={sortBy}
+            onChange={(e) => {
+              setSortBy(e.target.value as 'createdat' | 'cost' | 'device');
+              setPage(1);
+            }}
+          >
+            <option value="createdat">Created Date</option>
+            <option value="cost">Cost</option>
+            <option value="device">Device</option>
+          </select>
+        </label>
+
+        <label style={{ marginLeft: "0.75rem" }}>
+          Direction:{" "}
+          <select
+            value={sortDirection}
+            onChange={(e) => {
+              setSortDirection(e.target.value as 'asc' | 'desc');
+              setPage(1);
+            }}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </label>
+      </div>
 
       {repairs.length === 0 && <p>No repairs found.</p>}
 

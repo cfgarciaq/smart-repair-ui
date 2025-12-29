@@ -23,6 +23,11 @@ export default function RepairsList() {
     const [minCost, setMinCost] = useState<number | undefined>(undefined);
     const [maxCost, setMaxCost] = useState<number | undefined>(undefined);
 
+    // draft filters
+    const [searchInput, setSearchInput] = useState<string>('');
+    const [minCostInput, setMinCostInput] = useState<number | ''>('');
+    const [maxCostInput, setMaxCostInput] = useState<number | ''>('');
+
     useEffect(() => {
         const fetch = async () => {
           try {
@@ -77,13 +82,13 @@ export default function RepairsList() {
       <h2>Repairs List</h2>
 
       <div style={{ marginBottom: "0.75rem" }}>
-        
+
         <input
           type="text"
           placeholder="Search..."
-          value={search}
+          value={searchInput}
           onChange={(e) => {
-            setSearch(e.target.value);
+            setSearchInput(e.target.value);
             setPage(1);
           }}
         />
@@ -91,10 +96,10 @@ export default function RepairsList() {
         <input
           type="number"
           placeholder="Min Cost"
-          value={minCost !== undefined ? minCost : ''}
+          value={minCostInput !== undefined ? minCostInput : ''}
           onChange={(e) => {
             const value = e.target.value;
-            setMinCost(value ? parseFloat(value) : undefined);
+            setMinCostInput(value ? parseFloat(value) : '');
             setPage(1);
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -103,14 +108,26 @@ export default function RepairsList() {
         <input
           type="number"
           placeholder="Max Cost"
-          value={maxCost !== undefined ? maxCost : ''}
+          value={maxCostInput !== undefined ? maxCostInput : ''}
           onChange={(e) => {
             const value = e.target.value;
-            setMaxCost(value ? parseFloat(value) : undefined);
+            setMaxCostInput(value ? parseFloat(value) : '');
             setPage(1);
           }}
           style={{ marginLeft: "0.5rem" }}
-        />      
+        />
+
+        <button
+          onClick={() => {
+            setSearch(searchInput);
+            setMinCost(minCostInput === '' ? undefined : minCostInput);
+            setMaxCost(maxCostInput === '' ? undefined : maxCostInput);
+            setPage(1);
+          }}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          Search
+        </button>
 
       </div>
 

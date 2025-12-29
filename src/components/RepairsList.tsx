@@ -18,15 +18,41 @@ export default function RepairsList() {
     const [sortBy, setSortBy] = useState<'createdat' | 'cost' | 'device'>('createdat');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
+    // Filter state
+    const [search, setSearch] = useState<string>('');
+    const [minCost, setMinCost] = useState<number | undefined>(undefined);
+    const [maxCost, setMaxCost] = useState<number | undefined>(undefined);
+
+    // draft filters
+    const [searchInput, setSearchInput] = useState<string>('');
+    const [minCostInput, setMinCostInput] = useState<number | ''>('');
+    const [maxCostInput, setMaxCostInput] = useState<number | ''>('');
+
     useEffect(() => {
         const fetch = async () => {
           try {
             // Fetch repairs for the current page
             setLoading(true);
-            const result = await getRepairs(page, PAGE_SIZE, sortBy, sortDirection);
+
+            // Call the service to get repairs
+            const result = await getRepairs(
+              page, 
+              PAGE_SIZE, 
+              sortBy, 
+              sortDirection,
+            {
+              search: search || undefined,
+              minCost: minCost !== undefined ? minCost : undefined,
+              maxCost: maxCost !== undefined ? maxCost : undefined
+            });
+
+            // Update state with fetched data
             setRepairs(result.items ?? []);
+            // Update pagination info
             setTotalPages(result.totalPages);
+            // Update total items
             setTotalItems(result.totalItems);
+            // Clear any previous errors
             setError(null);
 
           } catch (e) {
@@ -43,7 +69,7 @@ export default function RepairsList() {
 
         // Initial fetch on component mount
         fetch();
-    }, [page, sortBy, sortDirection]);
+    }, [page, sortBy, sortDirection, search, minCost, maxCost]); // Dependencies for re-fetching
 
     // Render loading, error, or repairs list
     if (loading) return <p>Loading repairs...</p>;
@@ -52,8 +78,58 @@ export default function RepairsList() {
     if (error) return <p>{error}</p>;
 
     return (
-        <div>
+    <div>
       <h2>Repairs List</h2>
+
+      <div style={{ marginBottom: "0.75rem" }}>
+
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchInput}
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+            setPage(1);
+          }}
+        />
+
+        <input
+          type="number"
+          placeholder="Min Cost"
+          value={minCostInput !== undefined ? minCostInput : ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            setMinCostInput(value ? parseFloat(value) : '');
+            setPage(1);
+          }}
+          style={{ marginLeft: "0.5rem" }}
+        />
+
+        <input
+          type="number"
+          placeholder="Max Cost"
+          value={maxCostInput !== undefined ? maxCostInput : ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            setMaxCostInput(value ? parseFloat(value) : '');
+            setPage(1);
+          }}
+          style={{ marginLeft: "0.5rem" }}
+        />
+
+        <button
+          onClick={() => {
+            setSearch(searchInput);
+            setMinCost(minCostInput === '' ? undefined : minCostInput);
+            setMaxCost(maxCostInput === '' ? undefined : maxCostInput);
+            setPage(1);
+          }}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          Search
+        </button>
+
+      </div>
 
       <div style={{ marginBottom: "0.75rem" }}>
         <label>

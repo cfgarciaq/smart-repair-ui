@@ -28,6 +28,26 @@ export default function RepairsList() {
     const [minCostInput, setMinCostInput] = useState<number | ''>('');
     const [maxCostInput, setMaxCostInput] = useState<number | ''>('');
 
+    // Reset filters
+    const handleResetFilters = () => {
+      // Clear applied filters
+      setSearch('');
+      setMinCost(undefined);
+      setMaxCost(undefined);
+    
+      // Clear draft filters (UI)
+      setSearchInput('');
+      setMinCostInput('');
+      setMaxCostInput('');
+    
+      // Reset pagination
+      setPage(1);
+    
+      // Optional: reset sorting
+      setSortBy('createdat');
+      setSortDirection('desc');
+    };
+
     useEffect(() => {
         const fetch = async () => {
           try {
@@ -127,6 +147,13 @@ export default function RepairsList() {
           style={{ marginLeft: "0.5rem" }}
         >
           Search
+        </button>
+
+        <button
+          onClick={handleResetFilters}
+          style={{ marginLeft: '0.5rem' }}
+        >
+          Reset
         </button>
 
       </div>

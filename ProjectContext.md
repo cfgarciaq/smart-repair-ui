@@ -29,11 +29,13 @@ This is the frontend application for the Smart Repair system, built with **React
 
 ## Recent Changes (Modernization)
 - Integrated Tailwind CSS and PostCSS.
-- Initialized Shadcn UI and added core components (`Button`, `Table`, `Badge`).
+- Initialized Shadcn UI and added core components (`Button`, `Table`, `Badge`, `Sheet`).
 - Refactored `App.tsx` to demonstrate UI integration.
 - Standardized path aliases and ESM configuration.
 - **Backend Integration:** Enabled CORS for `http://localhost:5173` in `.NET` API.
 - **Data Flow:** Updated frontend models and services with strict TypeScript typing (zero `any`).
 - **UI Update:** `RepairsList` now uses Shadcn Table and Badge components with colored status indicators.
-- **Zero Warnings:** Resolved all ESLint, TypeScript, and VS Code warnings.
+- **Master-Detail View:** Implemented a side panel using Shadcn **Sheet** that displays full repair details and a vertical history timeline when a row is clicked.
+- **Type Safety & Refinement:** Resolved deprecated `React.ElementRef` usage in UI components and ensured strict TypeScript typing across the application.
+- **Zero Warnings:** Resolved all ESLint, TypeScript, and Fast Refresh warnings.
 - **Status:** Changes committed and pushed to `feature/frontend-modernization`.

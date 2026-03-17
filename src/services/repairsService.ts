@@ -1,6 +1,13 @@
 import httpClient from "../api/httpClient";
 import type { Repair } from "../models/Repair";
 import type { PagedResult } from "../models/PagedResult";
+import { AxiosError } from "axios";
+
+export interface RepairFilters {
+  search?: string;
+  minCost?: number;
+  maxCost?: number;
+}
 
 export async function getRepairs(
   page: number,
@@ -36,21 +43,32 @@ export async function getRepairs(
     params.maxCost = filters.maxCost;
   }
 
-  const response = await httpClient.get<PagedResult<Repair>>(
-    "/repairs",
-    { params }
-  );
-
-  return response.data;
+  try {
+    const response = await httpClient.get<PagedResult<Repair>>(
+      "/repairs",
+      { params }
+    );
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (!error.response) {
+        console.error("API is unreachable. Please check if the backend is running and CORS is configured.", error);
+      } else {
+        console.error(`API error (${error.response.status}):`, error.response.data);
+      }
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
+    throw error;
+  }
 }
 
 export const getRepairById = async (id: number): Promise<Repair> => {
-  const response = await httpClient.get<Repair>(`/repairs/${id}`);
-  return response.data;
+  try {
+    const response = await httpClient.get<Repair>(`/repairs/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching repair ${id}:`, error);
+    throw error;
+  }
 };
-
-export interface RepairFilters {
-  search?: string;
-  minCost?: number;
-  maxCost?: number;
-}

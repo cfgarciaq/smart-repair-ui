@@ -1,224 +1,101 @@
-import { useEffect, useState } from 'react';
-import { getRepairs } from '../services/repairsService';
-import { type Repair } from '../models/Repair';
+import { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { getRepairs } from "@/services/repairsService";
+import type { Repair } from "@/models/Repair";
 
-const PAGE_SIZE = 5;
+const RepairsList = () => {
+  const [repairs, setRepairs] = useState<Repair[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export default function RepairsList() {
-    const [repairs, setRepairs] = useState<Repair[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    // Pagination state
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-
-    // Sort state - use lowercase to match backend
-    const [sortBy, setSortBy] = useState<'createdat' | 'cost' | 'device'>('createdat');
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
-
-    // Filter state
-    const [search, setSearch] = useState<string>('');
-    const [minCost, setMinCost] = useState<number | undefined>(undefined);
-    const [maxCost, setMaxCost] = useState<number | undefined>(undefined);
-
-    // draft filters
-    const [searchInput, setSearchInput] = useState<string>('');
-    const [minCostInput, setMinCostInput] = useState<number | ''>('');
-    const [maxCostInput, setMaxCostInput] = useState<number | ''>('');
-
-    // Reset filters
-    const handleResetFilters = () => {
-      // Clear applied filters
-      setSearch('');
-      setMinCost(undefined);
-      setMaxCost(undefined);
-    
-      // Clear draft filters (UI)
-      setSearchInput('');
-      setMinCostInput('');
-      setMaxCostInput('');
-    
-      // Reset pagination
-      setPage(1);
-    
-      // Optional: reset sorting
-      setSortBy('createdat');
-      setSortDirection('desc');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getRepairs(1, 10);
+        setRepairs(data.items);
+        setError(null);
+      } catch {
+        setError("Failed to fetch repairs. Check console for details.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    useEffect(() => {
-        const fetch = async () => {
-          try {
-            // Fetch repairs for the current page
-            setLoading(true);
+    fetchData();
+  }, []);
 
-            // Call the service to get repairs
-            const result = await getRepairs(
-              page, 
-              PAGE_SIZE, 
-              sortBy, 
-              sortDirection,
-            {
-              search: search || undefined,
-              minCost: minCost !== undefined ? minCost : undefined,
-              maxCost: maxCost !== undefined ? maxCost : undefined
-            });
+  const getStatusBadge = (status: string) => {
+    const s = status.toLowerCase();
+    switch (s) {
+      case "pending":
+        return <Badge variant="pending">Pending</Badge>;
+      case "inprogress":
+        return <Badge variant="inProgress">In Progress</Badge>;
+      case "completed":
+        return <Badge variant="completed">Completed</Badge>;
+      case "delivered":
+        return <Badge variant="delivered">Delivered</Badge>;
+      case "cancelled":
+        return <Badge variant="cancelled">Cancelled</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
 
-            // Update state with fetched data
-            setRepairs(result.items ?? []);
-            // Update pagination info
-            setTotalPages(result.totalPages);
-            // Update total items
-            setTotalItems(result.totalItems);
-            // Clear any previous errors
-            setError(null);
+  if (loading) return <div className="text-center p-4">Loading repairs...</div>;
+  if (error) return <div className="text-center p-4 text-destructive">{error}</div>;
 
-          } catch (e) {
-            // Handle errors
-            console.error(e);
-            // Set error message
-            setError("Failed to load repairs.");
-
-          } finally {
-            // Always set loading to false after fetch attempt
-            setLoading(false);
-          }
-        };
-
-        // Initial fetch on component mount
-        fetch();
-    }, [page, sortBy, sortDirection, search, minCost, maxCost]); // Dependencies for re-fetching
-
-    // Render loading, error, or repairs list
-    if (loading) return <p>Loading repairs...</p>;
-
-    // Render error message if any
-    if (error) return <p>{error}</p>;
-
-    return (
-    <div>
-      <h2>Repairs List</h2>
-
-      <div style={{ marginBottom: "0.75rem" }}>
-
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchInput}
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-            setPage(1);
-          }}
-        />
-
-        <input
-          type="number"
-          placeholder="Min Cost"
-          value={minCostInput !== undefined ? minCostInput : ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            setMinCostInput(value ? parseFloat(value) : '');
-            setPage(1);
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        />
-
-        <input
-          type="number"
-          placeholder="Max Cost"
-          value={maxCostInput !== undefined ? maxCostInput : ''}
-          onChange={(e) => {
-            const value = e.target.value;
-            setMaxCostInput(value ? parseFloat(value) : '');
-            setPage(1);
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        />
-
-        <button
-          onClick={() => {
-            setSearch(searchInput);
-            setMinCost(minCostInput === '' ? undefined : minCostInput);
-            setMaxCost(maxCostInput === '' ? undefined : maxCostInput);
-            setPage(1);
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Search
-        </button>
-
-        <button
-          onClick={handleResetFilters}
-          style={{ marginLeft: '0.5rem' }}
-        >
-          Reset
-        </button>
-
-      </div>
-
-      <div style={{ marginBottom: "0.75rem" }}>
-        <label>
-          Sort by:{" "}
-          <select
-            value={sortBy}
-            onChange={(e) => {
-              setSortBy(e.target.value as 'createdat' | 'cost' | 'device');
-              setPage(1);
-            }}
-          >
-            <option value="createdat">Created Date</option>
-            <option value="cost">Cost</option>
-            <option value="device">Device</option>
-          </select>
-        </label>
-
-        <label style={{ marginLeft: "0.75rem" }}>
-          Direction:{" "}
-          <select
-            value={sortDirection}
-            onChange={(e) => {
-              setSortDirection(e.target.value as 'asc' | 'desc');
-              setPage(1);
-            }}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </label>
-      </div>
-
-      {repairs.length === 0 && <p>No repairs found.</p>}
-
-      <ul>
-        {repairs.map(repair => (
-          <li key={repair.id}>
-            <strong>{repair.device}</strong> – {repair.description} – € {repair.cost}
-          </li>
-        ))}
-      </ul>
-
-      <div style={{ marginTop: "1rem" }}>
-        <p>
-          Page {page} of {totalPages} ({totalItems} total repairs)
-        </p>
-
-        <button
-          onClick={() => setPage(p => p - 1)}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-
-        <button
-          onClick={() => setPage(p => p + 1)}
-          disabled={page === totalPages}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Next
-        </button>
-      </div>
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableCaption>A list of recent device repairs.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Client</TableHead>
+            <TableHead>Device</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Technician</TableHead>
+            <TableHead className="text-right">Cost</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {repairs.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center h-24">
+                No repairs found.
+              </TableCell>
+            </TableRow>
+          ) : (
+            repairs.map((repair) => (
+              <TableRow key={repair.id}>
+                <TableCell className="font-medium">{repair.id}</TableCell>
+                <TableCell>{repair.client.name}</TableCell>
+                <TableCell>{repair.device}</TableCell>
+                <TableCell>{getStatusBadge(repair.status)}</TableCell>
+                <TableCell>
+                  {repair.technician?.name || "Unassigned"}
+                </TableCell>
+                <TableCell className="text-right">
+                  ${repair.cost.toFixed(2)}
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
     </div>
-    );
-}
+  );
+};
+
+export default RepairsList;

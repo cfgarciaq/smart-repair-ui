@@ -27,6 +27,13 @@ This is the frontend application for the Smart Repair system, built with **React
 - **Data Flow:** Achieved full **Eager Loading** (`.Include`) for Technicians and History from the backend.
 - **Consistency:** Standardized naming (e.g., `specialization`) across the entire stack.
 
+## Infrastructure
+- **Frontend:** Vercel (Production: `main`, Staging: `develop`).
+- **API:** Render.com (Web Service).
+  - *Justification:* Render provides a sustainable Free Tier for Web Services, ensuring the portfolio remains live indefinitely without the 30-day expiration of Azure trials. It also preserves the full ASP.NET Core logic (DTOs, AutoMapper, FluentValidation) without requiring a rewrite for serverless architectures.
+- **Database:** Supabase (Remote PostgreSQL).
+- **Strategy:** Professional hybrid cloud approach leveraging the best-in-class features of each provider.
+
 ## Recent Changes (Modernization)
 - Integrated Tailwind CSS and PostCSS.
 - Initialized Shadcn UI and added core components (`Button`, `Table`, `Badge`, `Sheet`).

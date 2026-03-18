@@ -15,6 +15,7 @@
 - **HTTP Client**: Axios.
 
 ## Development Guidelines
+- **Git Flow**: The `main` branch is protected for production-ready code. Development happens in `develop`. All future features must branch from `develop` and return to it via Pull Request.
 - **Typing**: Use strict TypeScript interfaces for all models and API responses. Avoid `any`.
 - **Path Aliases**: Use `@/` for all internal imports (configured in `tsconfig.app.json` and `vite.config.ts`).
 - **Components**: Prefer Shadcn UI components. Follow the atomic design or a flat component structure as needed.

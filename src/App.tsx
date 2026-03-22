@@ -48,6 +48,12 @@ function App() {
             </p>
           </div>
           <RepairsList />
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold tracking-tight">Note for visitors</h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-3xl">
+              First load may take a few seconds due to the server cold start.
+            </p>
+          </div>
         </div>
       </main>
 

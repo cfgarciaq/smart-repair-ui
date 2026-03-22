@@ -43,7 +43,7 @@ export const badgeVariants = cva(
         outline: "text-foreground",
         // Custom status variants
         pending: "border-transparent bg-yellow-500 text-white hover:bg-yellow-500/80",
-        inProgress: "border-transparent bg-blue-500 text-white hover:bg-yellow-500/80",
+        inProgress: "border-transparent bg-blue-500 text-white hover:bg-blue-500/80",
         completed: "border-transparent bg-green-500 text-white hover:bg-green-500/80",
         delivered: "border-transparent bg-purple-500 text-white hover:bg-purple-500/80",
         cancelled: "border-transparent bg-red-500 text-white hover:bg-red-500/80",

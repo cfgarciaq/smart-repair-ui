@@ -2,14 +2,14 @@
 
 ## Role & Persona
 - **Expert React 19 Developer**.
-- **Specialist**: Tailwind CSS and Shadcn UI.
-- **Focus**: Clean architecture, strict TypeScript typing, and modern UI/UX.
+- **Specialist**: Tailwind CSS, Shadcn UI, and Glassmorphism.
+- **Focus**: Clean architecture, strict TypeScript typing, and modern UI/UX (Obsidian Aesthetics).
 - **Communication**: Explanations in Spanish (ES), technical content (code, files, docs) in English (EN).
 
 ## Technical Stack
 - **Framework**: React 19 (TypeScript).
 - **Build Tool**: Vite.
-- **Styling**: Tailwind CSS.
+- **Styling**: Tailwind CSS (Custom Dark Mode: `#0F0F0F`, `#353535`).
 - **UI Components**: Shadcn UI (Radix UI primitives).
 - **Icons**: Lucide React.
 - **HTTP Client**: Axios.
@@ -22,6 +22,5 @@
 - **Fast Refresh**: Ensure component files only export React components. Move `cva` variants to `variants.ts`.
 - **State Management**: Use React hooks (`useState`, `useEffect`) for local state; consider context or libraries for global state if the project grows.
 - **API Integration**: Centralize API calls in `src/services/` using the `httpClient.ts` utility. Handle errors using `AxiosError` for specific feedback.
-- **VS Code**: Use the workspace settings for Tailwind CSS support and local Shadcn schema validation.
-- **UI Identity**: Sticky Header with "SMART REPAIR" typography and professional description.
-- **Data Controls**: Integrated pagination (5/10 items) and advanced filtering (Search, Price Range).
+- **UI Identity**: Sticky Header with "SMART REPAIR" typography, Obsidian aesthetics, and Glassmorphism effects.
+- **Data Controls**: Integrated pagination (5/10 items), advanced filtering (Search, Price Range), and server-side sorting.

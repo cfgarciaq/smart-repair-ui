@@ -1,16 +1,16 @@
 # Project Context: Smart Repair UI
 
 ## Current Project State
-The frontend is a modern React 19 application built with Vite, Tailwind CSS, and Shadcn UI. It is integrated with the Smart Repair API.
+The frontend is a modern React 19 application built with Vite, Tailwind CSS, and Shadcn UI. It features a premium "Obsidian" aesthetic with Glassmorphism effects.
 
 ## Last Implemented Features
-- **Advanced Table UI**: Implemented clickable headers for sorting (Device, Client, Technician, Cost, Date) with visual indicators and API integration.
-- **Theme Support**: Added a Light/Dark mode toggle with system preference support. Custom dark theme using `#0F0F0F` and `#353535`.
-- **Glassmorphism**: Applied backdrop-blur effects to the header, footer, and side panels (Sheet) for a modern look.
-- **UI Rebranding**: Implemented a premium sticky header with "SMART REPAIR" typography and a professional project description.
-- **Pagination UI**: Added controls to select `pageSize` (5 or 10) and navigation buttons.
-- **Advanced Filtering**: Integrated search bar and price range filters (Min/Max Cost) in the `RepairsList` component.
-- **API Integration**: Centralized calls in `src/services/repairsService.ts` using `httpClient.ts`.
+- **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
+- **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, and Side Panels (Sheet).
+- **Advanced Table UI**: Clickable headers for sorting (Date, Client, Device, Technician, Cost) with visual indicators and server-side integration.
+- **Theme Support**: Light/Dark mode toggle with automatic system preference detection.
+- **UI Rebranding**: Premium sticky header with "SMART REPAIR" typography and professional description.
+- **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.
+- **Multilingual README**: Added support for Spanish, English, and French.
 
 ## Pending Technical Debt or Bugs
 - **Global State**: Consider implementing Context API or a state management library if the application grows.

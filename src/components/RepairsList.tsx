@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { getRepairs } from "@/services/repairsService";
 import type { Repair } from "@/models/Repair";
-import { History, User, Wrench, DollarSign, Calendar, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { History, User, Wrench, DollarSign, Calendar, Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 
 const RepairsList = () => {
   const [repairs, setRepairs] = useState<Repair[]>([]);
@@ -35,10 +35,14 @@ const RepairsList = () => {
   const [minCost, setMinCost] = useState<number | "">("");
   const [maxCost, setMaxCost] = useState<number | "">("");
 
+  // Sorting State
+  const [sortBy, setSortBy] = useState<string>("createdat");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getRepairs(page, pageSize, undefined, undefined, {
+      const data = await getRepairs(page, pageSize, sortBy, sortDirection, {
         search: search || undefined,
         minCost: minCost === "" ? undefined : minCost,
         maxCost: maxCost === "" ? undefined : maxCost,
@@ -51,7 +55,7 @@ const RepairsList = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, pageSize, search, minCost, maxCost]);
+  }, [page, pageSize, search, minCost, maxCost, sortBy, sortDirection]);
 
   useEffect(() => {
     fetchData();
@@ -61,6 +65,25 @@ const RepairsList = () => {
     e.preventDefault();
     setPage(1);
     fetchData();
+  };
+
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(column);
+      setSortDirection("asc");
+    }
+    setPage(1); // Reset to page 1 on sort
+  };
+
+  const getSortIcon = (column: string) => {
+    if (sortBy !== column) return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
+    return sortDirection === "asc" ? (
+      <ArrowUp className="ml-2 h-4 w-4 text-primary" />
+    ) : (
+      <ArrowDown className="ml-2 h-4 w-4 text-primary" />
+    );
   };
 
   const getStatusBadge = (status: string) => {
@@ -97,14 +120,14 @@ const RepairsList = () => {
   return (
     <div className="space-y-4">
       {/* Filters Bar */}
-      <form onSubmit={handleSearch} className="flex flex-wrap items-end gap-4 p-4 bg-card rounded-lg border shadow-sm">
+      <form onSubmit={handleSearch} className="flex flex-wrap items-end gap-4 p-4 bg-card/50 backdrop-blur-md rounded-lg border shadow-sm">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Search</label>
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Client or Device..."
+              placeholder="Client, Device, Tech..."
               className="pl-9 h-10 w-[200px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -155,17 +178,42 @@ const RepairsList = () => {
       </form>
 
       {/* Table */}
-      <div className="rounded-md border bg-card shadow-sm overflow-hidden">
+      <div className="rounded-md border bg-card/50 backdrop-blur-md shadow-sm overflow-hidden">
         <Table>
-          <TableCaption>A list of recent vehicle repairs.</TableCaption>
+          <TableCaption>A list of recent device repairs.</TableCaption>
           <TableHeader className="bg-muted/50">
             <TableRow>
-              <TableHead className="w-[80px] font-bold">ID</TableHead>
-              <TableHead className="font-bold">Client</TableHead>
-              <TableHead className="font-bold">Device</TableHead>
+              <TableHead 
+                className="w-[80px] font-bold cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort("createdat")}
+              >
+                <div className="flex items-center">Date {getSortIcon("createdat")}</div>
+              </TableHead>
+              <TableHead 
+                className="font-bold cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort("client")}
+              >
+                <div className="flex items-center">Client {getSortIcon("client")}</div>
+              </TableHead>
+              <TableHead 
+                className="font-bold cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort("device")}
+              >
+                <div className="flex items-center">Device {getSortIcon("device")}</div>
+              </TableHead>
               <TableHead className="font-bold">Status</TableHead>
-              <TableHead className="font-bold">Technician</TableHead>
-              <TableHead className="text-right font-bold">Cost</TableHead>
+              <TableHead 
+                className="font-bold cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort("technician")}
+              >
+                <div className="flex items-center">Technician {getSortIcon("technician")}</div>
+              </TableHead>
+              <TableHead 
+                className="text-right font-bold cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleSort("cost")}
+              >
+                <div className="flex items-center justify-end">Cost {getSortIcon("cost")}</div>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -191,7 +239,7 @@ const RepairsList = () => {
                   className="cursor-pointer hover:bg-muted/50 transition-colors"
                   onClick={() => setSelectedRepair(repair)}
                 >
-                  <TableCell className="font-medium">#{repair.id}</TableCell>
+                  <TableCell className="font-medium">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
                   <TableCell>{repair.client?.name || "N/A"}</TableCell>
                   <TableCell>{repair.device}</TableCell>
                   <TableCell>{getStatusBadge(repair.status)}</TableCell>
@@ -233,7 +281,7 @@ const RepairsList = () => {
 
       {/* Detail Sheet */}
       <Sheet open={!!selectedRepair} onOpenChange={() => setSelectedRepair(null)}>
-        <SheetContent className="sm:max-w-md">
+        <SheetContent className="sm:max-w-md bg-background/80 backdrop-blur-xl border-l shadow-2xl">
           <SheetHeader className="border-b pb-4">
             <SheetTitle className="text-2xl flex items-center gap-2">
               <Wrench className="h-6 w-6 text-primary" />
@@ -263,7 +311,7 @@ const RepairsList = () => {
 
               {/* Info Grid */}
               <div className="grid grid-cols-1 gap-4">
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card">
+                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
                   <User className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold">Client Information</p>
@@ -272,7 +320,7 @@ const RepairsList = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card">
+                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
                   <Wrench className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold">Device & Issue</p>
@@ -281,7 +329,7 @@ const RepairsList = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card">
+                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
                   <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold">Created At</p>

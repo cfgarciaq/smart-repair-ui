@@ -1,55 +1,33 @@
 # Project Context: Smart Repair UI
 
-## Overview
-This is the frontend application for the Smart Repair system, built with **React 19** and **Vite**. It provides a modern interface for managing vehicle repairs.
+## Current Project State
+The frontend is a modern React 19 application built with Vite, Tailwind CSS, and Shadcn UI. It is integrated with the Smart Repair API.
 
-## Tech Stack
-- **Framework:** React 19 (TypeScript)
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS
-- **UI Components:** Shadcn UI (Radix UI primitives)
-- **Icons:** Lucide React
-- **HTTP Client:** Axios
+## Last Implemented Features
+- **UI Rebranding**: Implemented a premium sticky header with "SMART REPAIR" typography and a professional project description.
+- **Footer Update**: Replaced "Click Me" with a professional anchor link to `cfgarciaq.dev`.
+- **Pagination UI**: Added controls to select `pageSize` (5 or 10) and navigation buttons.
+- **Advanced Filtering**: Integrated search bar and price range filters (Min/Max Cost) in the `RepairsList` component.
+- **Responsive Design**: Optimized layout for various screen sizes using Tailwind CSS.
+- **Shadcn UI Integration**: Utilized Table, Badge, Button, and Sheet components for a consistent look and feel.
+- **API Integration**: Centralized calls in `src/services/repairsService.ts` using `httpClient.ts`.
 
-## Architecture & Configuration
-- **ESM Standards:** The project is fully migrated to ESM. Configuration files like `vite.config.ts` and `tailwind.config.js` use `import/export` syntax.
-- **Path Aliases:** 
-  - `@/*` maps to `./src/*`
-  - Configured consistently across `tsconfig.app.json`, `vite.config.ts`, and `components.json`.
-- **Styling Strategy:** Uses Tailwind CSS with CSS variables for theming (supporting light/dark modes).
-- **Fast Refresh Optimization:** UI variants (cva) are separated into `src/components/ui/variants.ts` to ensure components only export React components.
-- **VS Code Integration:** Workspace settings configured for Tailwind CSS IntelliSense and local Shadcn schema validation.
+## Pending Technical Debt or Bugs
+- **Global State**: Consider implementing Context API or a state management library if the application grows.
+- **Unit Testing**: Components and services need test coverage.
+- **Error Handling**: Improve user feedback for API errors.
 
-## API Integration
-- **Backend URL:** `http://localhost:5000` (Default for local development)
-- **Client:** `src/api/httpClient.ts`
-- **Services:** `src/services/` contains the logic for interacting with the API.
-- **Data Flow:** Achieved full **Eager Loading** (`.Include`) for Technicians and History from the backend.
-- **Consistency:** Standardized naming (e.g., `specialization`) across the entire stack.
+## Next Immediate Steps
+1. **Dashboard Visualization**: Implement charts and metrics for repair tracking.
+2. **Authentication UI**: Create login and registration pages.
 
 ## Infrastructure
 - **Frontend:** Vercel (Production: `main`, Staging: `develop`).
   - **Production URL:** `https://smart-repair-ui.vercel.app`
 - **API:** Render.com (Web Service).
   - **Production URL:** `https://smart-repair-api-5rrg.onrender.com/api`
-  - *Justification:* Render provides a sustainable Free Tier for Web Services, ensuring the portfolio remains live indefinitely without the 30-day expiration of Azure trials. It also preserves the full ASP.NET Core logic (DTOs, AutoMapper, FluentValidation) without requiring a rewrite for serverless architectures.
-- **Database:** Supabase (Remote PostgreSQL).
-- **Strategy:** Professional hybrid cloud approach leveraging the best-in-class features of each provider.
 
 ## Git Flow
 - **Main Branch:** Protected, production-ready code.
 - **Develop Branch:** Primary integration branch.
 - **Feature Branches:** Created from `develop`, merged back via Pull Request.
-
-## Recent Changes (Modernization)
-- Integrated Tailwind CSS and PostCSS.
-- Initialized Shadcn UI and added core components (`Button`, `Table`, `Badge`, `Sheet`).
-- Refactored `App.tsx` to demonstrate UI integration.
-- Standardized path aliases and ESM configuration.
-- **Backend Integration:** Enabled CORS for `http://localhost:5173` in `.NET` API.
-- **Data Flow:** Updated frontend models and services with strict TypeScript typing (zero `any`).
-- **UI Update:** `RepairsList` now uses Shadcn Table and Badge components with colored status indicators.
-- **Master-Detail View:** Implemented a side panel using Shadcn **Sheet** that displays full repair details and a vertical history timeline when a row is clicked.
-- **Type Safety & Refinement:** Resolved deprecated `React.ElementRef` usage in UI components and ensured strict TypeScript typing across the application.
-- **Zero Warnings:** Resolved all ESLint, TypeScript, and Fast Refresh warnings.
-- **Status:** Changes committed and pushed to `feature/frontend-modernization`.

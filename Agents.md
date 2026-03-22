@@ -23,3 +23,5 @@
 - **State Management**: Use React hooks (`useState`, `useEffect`) for local state; consider context or libraries for global state if the project grows.
 - **API Integration**: Centralize API calls in `src/services/` using the `httpClient.ts` utility. Handle errors using `AxiosError` for specific feedback.
 - **VS Code**: Use the workspace settings for Tailwind CSS support and local Shadcn schema validation.
+- **UI Identity**: Sticky Header with "SMART REPAIR" typography and professional description.
+- **Data Controls**: Integrated pagination (5/10 items) and advanced filtering (Search, Price Range).

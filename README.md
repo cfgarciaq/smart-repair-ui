@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# Smart Repair UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-performance technical management system designed for real-time repair tracking, cost optimization, and client lifecycle management.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19**: Latest React features for a smooth user experience.
+- **Vite**: Fast build tool and development server.
+- **Tailwind CSS**: Utility-first styling for rapid UI development.
+- **Shadcn UI**: High-quality, accessible UI components.
+- **Lucide React**: Beautifully simple icons.
+- **Axios**: Robust HTTP client for API integration.
+- **Responsive Design**: Optimized for all devices.
+- **Advanced Pagination**: Dynamic page sizes and multi-parameter filtering.
 
-## React Compiler
+## 🛠️ Setup Guide
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (v18 or later)
+- npm or yarn
 
-## Expanding the ESLint configuration
+### Installation
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables:
+   - Create a `.env` file based on `.env.example`.
+   - `VITE_API_URL`: URL of the Smart Repair API.
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔗 Links
+- **Portfolio:** [cfgarciaq.dev](https://cfgarciaq.dev)
+- **LinkedIn:** [linkedin.com/in/cfgarciaq](https://www.linkedin.com/in/cfgarciaq/)
+- **Backend Repo:** [smart-repair-api](https://github.com/cfgarciaq/smart-repair-api)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📄 License
+MIT

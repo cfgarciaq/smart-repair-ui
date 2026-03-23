@@ -11,6 +11,7 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **UI Rebranding**: Premium sticky header with "SMART REPAIR" typography and professional description.
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.
 - **Multilingual README**: Added support for Spanish, English, and French.
+- **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
 
 ## Pending Technical Debt or Bugs
 - **Global State**: Consider implementing Context API or a state management library if the application grows.

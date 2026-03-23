@@ -13,6 +13,7 @@
 - **UI Components**: Shadcn UI (Radix UI primitives).
 - **Icons**: Lucide React.
 - **HTTP Client**: Axios.
+- **Analytics**: Vercel Analytics.
 
 ## Development Guidelines
 - **Git Flow**: The `main` branch is protected for production-ready code. Development happens in `develop`. All future features must branch from `develop` and return to it via Pull Request.

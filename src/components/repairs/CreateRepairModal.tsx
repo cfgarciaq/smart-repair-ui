@@ -1,6 +1,6 @@
 // Using English for code/comments as per industry standard
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type ControllerRenderProps } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { 
@@ -78,7 +78,7 @@ export function CreateRepairModal() {
             <FormField
               control={form.control}
               name="device"
-              render={({ field }) => (
+              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "device"> }) => (
                 <FormItem>
                   <FormLabel>Device</FormLabel>
                   <FormControl>
@@ -92,7 +92,7 @@ export function CreateRepairModal() {
             <FormField
               control={form.control}
               name="description"
-              render={({ field }) => (
+              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "description"> }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
@@ -110,11 +110,16 @@ export function CreateRepairModal() {
             <FormField
               control={form.control}
               name="cost"
-              render={({ field }) => (
+              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "cost"> }) => (
                 <FormItem>
                   <FormLabel>Cost</FormLabel>
                   <FormControl>
-                    <Input type="number" step="0.01" {...field} />
+                    <Input 
+                      type="number" 
+                      step="0.01" 
+                      {...field} 
+                      onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,11 +130,16 @@ export function CreateRepairModal() {
               <FormField
                 control={form.control}
                 name="clientId"
-                render={({ field }) => (
+                render={({ field }: { field: ControllerRenderProps<RepairFormValues, "clientId"> }) => (
                   <FormItem>
                     <FormLabel>Client ID</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="ID" {...field} />
+                      <Input 
+                        type="number" 
+                        placeholder="ID" 
+                        {...field} 
+                        onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,11 +149,16 @@ export function CreateRepairModal() {
               <FormField
                 control={form.control}
                 name="technicianId"
-                render={({ field }) => (
+                render={({ field }: { field: ControllerRenderProps<RepairFormValues, "technicianId"> }) => (
                   <FormItem>
                     <FormLabel>Technician ID</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="ID" {...field} />
+                      <Input 
+                        type="number" 
+                        placeholder="ID" 
+                        {...field} 
+                        onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

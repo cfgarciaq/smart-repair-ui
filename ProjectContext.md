@@ -13,6 +13,17 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Multilingual README**: Added support for Spanish, English, and French.
 - **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
 
+## Backend Status
+- **Done**: Full CRUD operations implemented with FluentValidation and AutoMapper.
+
+## Current Milestone
+- **Sprint 3**: UI Implementation (Repair Management).
+
+## Commercial Roadmap
+- **Engine for SaaS**: Current CRUD operations serve as the core engine for a future SaaS product.
+- **Data Cleanup**: Plans for automated data cleanup and maintenance.
+- **Payment Integration**: Future integration with payment gateways for repair billing.
+
 ## Pending Technical Debt or Bugs
 - **Global State**: Consider implementing Context API or a state management library if the application grows.
 - **Unit Testing**: Components and services need test coverage.

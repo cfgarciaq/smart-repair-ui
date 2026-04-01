@@ -25,3 +25,4 @@
 - **API Integration**: Centralize API calls in `src/services/` using the `httpClient.ts` utility. Handle errors using `AxiosError` for specific feedback.
 - **UI Identity**: Sticky Header with "SMART REPAIR" typography, Obsidian aesthetics, and Glassmorphism effects.
 - **Data Controls**: Integrated pagination (5/10 items), advanced filtering (Search, Price Range), and server-side sorting.
+- **Strict Validation Rule**: All Frontend Zod schemas must strictly mirror Backend C# FluentValidation rules. Use camelCase in TypeScript to match PascalCase in C#.

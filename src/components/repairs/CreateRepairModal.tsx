@@ -1,8 +1,9 @@
-// Using English for code/comments as per industry standard
-import React from "react";
-import { useForm, type ControllerRenderProps } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+// Explicit imports for types to avoid verbatimModuleSyntax error
+import type { SubmitHandler } from "react-hook-form";
 import * as z from "zod";
+import { typedZodResolver } from "@/lib/zod-helpers";
 import { 
   Dialog, 
   DialogContent, 
@@ -16,14 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 
-/**
- * Validation schema matching Backend RepairCreateDto and RepairCreateValidator.
- * Backend rules:
- * - Device: Required, Max 100
- * - Description: Required, Max 500
- * - Cost: >= 0
- * - ClientId: > 0
- */
+// Definition of Zod schema for repair form validation Zod
 const repairSchema = z.object({
   device: z.string()
     .min(1, "Device is required")
@@ -39,11 +33,14 @@ const repairSchema = z.object({
     .min(1, "TechnicianId must be a positive integer"),
 });
 
+// Dejamos que Zod infiera el tipo automáticamente para que coincida perfectamente con el resolver
 type RepairFormValues = z.infer<typeof repairSchema>;
 
 export function CreateRepairModal() {
+  // Inicializamos el formulario con el tipo inferido de Zod
   const form = useForm<RepairFormValues>({
-    resolver: zodResolver(repairSchema),
+    // Use the typed helper to avoid TS compatibility issues between Zod versions and RHF
+    resolver: typedZodResolver<RepairFormValues>(repairSchema),
     defaultValues: {
       device: "",
       description: "",
@@ -53,9 +50,8 @@ export function CreateRepairModal() {
     },
   });
 
-  const onSubmit = async (data: RepairFormValues) => {
+  const onSubmit: SubmitHandler<RepairFormValues> = async (data) => {
     try {
-      // Logic to call your POST api/Repairs endpoint will go here
       console.log("Submitting:", data);
     } catch (error) {
       console.error("Failed to create repair", error);
@@ -75,10 +71,11 @@ export function CreateRepairModal() {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            
             <FormField
               control={form.control}
               name="device"
-              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "device"> }) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Device</FormLabel>
                   <FormControl>
@@ -92,7 +89,7 @@ export function CreateRepairModal() {
             <FormField
               control={form.control}
               name="description"
-              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "description"> }) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
@@ -110,14 +107,14 @@ export function CreateRepairModal() {
             <FormField
               control={form.control}
               name="cost"
-              render={({ field }: { field: ControllerRenderProps<RepairFormValues, "cost"> }) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cost</FormLabel>
                   <FormControl>
                     <Input 
                       type="number" 
                       step="0.01" 
-                      {...field} 
+                      {...field}
                       onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                     />
                   </FormControl>
@@ -130,14 +127,13 @@ export function CreateRepairModal() {
               <FormField
                 control={form.control}
                 name="clientId"
-                render={({ field }: { field: ControllerRenderProps<RepairFormValues, "clientId"> }) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Client ID</FormLabel>
                     <FormControl>
                       <Input 
                         type="number" 
-                        placeholder="ID" 
-                        {...field} 
+                        {...field}
                         onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                       />
                     </FormControl>
@@ -149,14 +145,13 @@ export function CreateRepairModal() {
               <FormField
                 control={form.control}
                 name="technicianId"
-                render={({ field }: { field: ControllerRenderProps<RepairFormValues, "technicianId"> }) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Technician ID</FormLabel>
                     <FormControl>
                       <Input 
                         type="number" 
-                        placeholder="ID" 
-                        {...field} 
+                        {...field}
                         onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
                       />
                     </FormControl>

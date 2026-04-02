@@ -18,6 +18,7 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.
 - **Multilingual README**: Added support for Spanish, English, and French.
 - **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
+- **Repair Deletion**: Implemented `deleteRepair` in `repairsService.ts` to enable the delete functionality in the UI.
 
 ## Backend Status
 - **Done**: Full CRUD operations implemented with FluentValidation and AutoMapper.

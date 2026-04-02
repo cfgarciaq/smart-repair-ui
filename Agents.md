@@ -27,6 +27,7 @@
 - **Data Controls**: Integrated pagination (5/10 items), advanced filtering (Search, Price Range), and server-side sorting.
 - **Strict Validation Rule**: All Frontend Zod schemas must strictly mirror Backend C# FluentValidation rules. Use camelCase in TypeScript to match PascalCase in C#.
 - **Recent Improvements**: 
+  - Implemented `deleteRepair` function in `repairsService.ts`
   - Made Device field editable in repair details panel
   - Added Device field to RepairUpdateDto for full edit capability
   - Implemented robust error handling with Promise.allSettled to prevent UI crashes

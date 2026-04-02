@@ -26,3 +26,9 @@
 - **UI Identity**: Sticky Header with "SMART REPAIR" typography, Obsidian aesthetics, and Glassmorphism effects.
 - **Data Controls**: Integrated pagination (5/10 items), advanced filtering (Search, Price Range), and server-side sorting.
 - **Strict Validation Rule**: All Frontend Zod schemas must strictly mirror Backend C# FluentValidation rules. Use camelCase in TypeScript to match PascalCase in C#.
+- **Recent Improvements**: 
+  - Made Device field editable in repair details panel
+  - Added Device field to RepairUpdateDto for full edit capability
+  - Implemented robust error handling with Promise.allSettled to prevent UI crashes
+  - Added Status selection dropdown for workflow transitions
+  - Enhanced loading states and error feedback throughout the application

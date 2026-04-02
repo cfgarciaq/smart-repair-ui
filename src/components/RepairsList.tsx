@@ -20,8 +20,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CreateRepairModal } from "@/components/repairs/CreateRepairModal";
-import { getRepairs } from "@/services/repairsService";
+import { getRepairs, updateRepair } from "@/services/repairsService";
 import type { Repair } from "@/models/Repair";
+import { useToast } from "@/hooks/use-toast";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 import { 
   History, User, Wrench, DollarSign, Calendar, Search, 
   ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
@@ -29,11 +37,13 @@ import {
 } from "lucide-react";
 
 const RepairsList = () => {
+  const { addToast } = useToast();
   const [repairs, setRepairs] = useState<Repair[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedRepair, setSelectedRepair] = useState<Repair | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   
   // Pagination & Filters State
   const [page, setPage] = useState(1);
@@ -68,6 +78,38 @@ const RepairsList = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleUpdate = async () => {
+    if (!selectedRepair) return;
+    try {
+      setIsUpdating(true);
+      // Align with RepairUpdateDto: Id, Device, Description, Cost, Status
+      const updateData = {
+        id: selectedRepair.id,
+        device: selectedRepair.device,
+        description: selectedRepair.description,
+        cost: selectedRepair.cost,
+        status: selectedRepair.status
+      };
+      await updateRepair(selectedRepair.id, updateData);
+      addToast({
+        id: `update-${selectedRepair.id}`,
+        title: "Repair Updated",
+        description: `Repair #${selectedRepair.id} has been successfully updated.`,
+      });
+      setIsEditing(false);
+      fetchData();
+    } catch (error) {
+      console.error("Update error:", error);
+      addToast({
+        id: `error-${selectedRepair.id}`,
+        title: "Update Failed",
+        description: "There was an error updating the repair.",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,6 +179,8 @@ const RepairsList = () => {
             variant="ghost" 
             className="h-8 w-8 hover:bg-muted text-green-600 hover:text-green-500"
             title="Save"
+            onClick={handleUpdate}
+            disabled={isUpdating}
           >
             <Save className="h-4 w-4" />
           </Button>
@@ -172,12 +216,12 @@ const RepairsList = () => {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <form onSubmit={handleSearch} className="flex flex-wrap items-center gap-3 p-2 bg-background/50 backdrop-blur-md rounded-lg border shadow-sm flex-1">
-          <div className="relative">
+          <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search repairs..."
-              className="pl-9 h-9 w-[220px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all"
+              className="pl-9 h-9 w-full rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -224,7 +268,7 @@ const RepairsList = () => {
           </Button>
         </form>
 
-        <CreateRepairModal />
+        <CreateRepairModal onSuccess={fetchData} />
       </div>
 
       {/* Table */}
@@ -310,14 +354,37 @@ const RepairsList = () => {
               <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
                 <div className="space-y-1">
                   <p className="text-xs font-medium text-muted-foreground uppercase">Status</p>
-                  {getStatusBadge(selectedRepair.status)}
+                  {isEditing ? (
+                    <Select 
+                      value={selectedRepair.status} 
+                      onValueChange={(val) => setSelectedRepair({...selectedRepair, status: val})}
+                    >
+                      <SelectTrigger className="h-8 w-32 bg-background/50">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Pending">Pending</SelectItem>
+                        <SelectItem value="InProgress">In Progress</SelectItem>
+                        <SelectItem value="Completed">Completed</SelectItem>
+                        <SelectItem value="Delivered">Delivered</SelectItem>
+                        <SelectItem value="Cancelled">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    getStatusBadge(selectedRepair.status)
+                  )}
                 </div>
                 <div className="text-right space-y-1">
                   <p className="text-xs font-medium text-muted-foreground uppercase">Total Cost</p>
                   {isEditing ? (
                     <div className="relative">
                       <DollarSign className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
-                      <Input type="number" className="pl-7 h-8 w-28 text-right font-bold" defaultValue={selectedRepair.cost} />
+                      <Input 
+                        type="number" 
+                        className="pl-7 h-8 w-28 text-right font-bold bg-background/50" 
+                        value={selectedRepair.cost} 
+                        onChange={(e) => setSelectedRepair({...selectedRepair, cost: Number(e.target.value)})}
+                      />
                     </div>
                   ) : (
                     <p className="text-2xl font-bold text-primary flex items-center justify-end">
@@ -356,8 +423,22 @@ const RepairsList = () => {
                     <p className="text-sm font-semibold">Device & Issue</p>
                     {isEditing ? (
                       <>
-                        <Input defaultValue={selectedRepair.device} className="h-8 text-sm" />
-                        <Textarea defaultValue={selectedRepair.description} className="text-sm min-h-[80px]" />
+                        <div className="space-y-1">
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Device</p>
+                          <Input 
+                            value={selectedRepair.device} 
+                            className="h-8 text-sm bg-background/50" 
+                            onChange={(e) => setSelectedRepair({...selectedRepair, device: e.target.value})}
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Description</p>
+                          <Textarea 
+                            value={selectedRepair.description} 
+                            className="text-sm min-h-[80px] bg-background/50" 
+                            onChange={(e) => setSelectedRepair({...selectedRepair, description: e.target.value})}
+                          />
+                        </div>
                       </>
                     ) : (
                       <>

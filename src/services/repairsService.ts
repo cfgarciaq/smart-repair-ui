@@ -72,3 +72,43 @@ export const getRepairById = async (id: number): Promise<Repair> => {
     throw error;
   }
 };
+
+export const updateRepair = async (id: number, data: Partial<Repair>): Promise<Repair> => {
+  try {
+    const response = await httpClient.put<Repair>(`/repairs/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating repair ${id}:`, error);
+    throw error;
+  }
+};
+
+export const createRepair = async (data: any): Promise<Repair> => {
+  try {
+    const response = await httpClient.post<Repair>("/repairs", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating repair:", error);
+    throw error;
+  }
+};
+
+export const getClients = async (): Promise<any[]> => {
+  try {
+    const response = await httpClient.get<any[]>("/clients");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching clients:", error);
+    return [];
+  }
+};
+
+export const getTechnicians = async (): Promise<any[]> => {
+  try {
+    const response = await httpClient.get<any[]>("/technicians");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching technicians:", error);
+    return [];
+  }
+};

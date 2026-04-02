@@ -20,6 +20,10 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
 - **Repair Deletion**: Implemented `deleteRepair` in `repairsService.ts` and a custom `DeleteRepairModal` component for a professional deletion workflow.
 - **Documentation Refactor**: Reorganized `Agents.md` following progressive disclosure principles, moving specialized conventions to `docs/conventions/`.
+- **Critical Fixes**:
+  - Fixed "White Screen of Death" in `CreateRepairModal.tsx` by adding defensive mapping (`Array.isArray`) and robust error handling.
+  - Resolved 404 error for `/api/technicians` by implementing the `TechniciansController` in the backend.
+  - Added visual error feedback in the creation modal when data fails to load.
 
 ## Backend Status
 - **Done**: Full CRUD operations implemented with FluentValidation and AutoMapper.

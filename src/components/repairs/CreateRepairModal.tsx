@@ -58,6 +58,7 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
   const [clients, setClients] = useState<Client[]>([]);
   const [technicians, setTechnicians] = useState<Technician[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   // Inicializamos el formulario con el tipo inferido de Zod
   const form = useForm<RepairFormValues>({
@@ -78,15 +79,29 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
       const loadData = async () => {
         try {
           setLoading(true);
+          setLoadError(null);
+          
           // Use try-catch for each call to prevent one failure from breaking everything
           const [c, t] = await Promise.allSettled([getClients(), getTechnicians()]);
           
           if (isMounted) {
-            setClients(c.status === 'fulfilled' ? c.value : []);
-            setTechnicians(t.status === 'fulfilled' ? t.value : []);
+            const clientsData = c.status === 'fulfilled' ? c.value : [];
+            const techniciansData = t.status === 'fulfilled' ? t.value : [];
+            
+            setClients(Array.isArray(clientsData) ? clientsData : []);
+            setTechnicians(Array.isArray(techniciansData) ? techniciansData : []);
+
+            if (c.status === 'rejected' || t.status === 'rejected') {
+              setLoadError("Some data could not be loaded. Please try again later.");
+            }
           }
         } catch (err) {
           console.error("Error loading modal data:", err);
+          if (isMounted) {
+            setLoadError("Failed to load required data.");
+            setClients([]);
+            setTechnicians([]);
+          }
         } finally {
           if (isMounted) setLoading(false);
         }
@@ -127,6 +142,11 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
       <DialogContent className="sm:max-w-[425px] bg-background/95 backdrop-blur-xl border shadow-2xl">
         <DialogHeader>
           <DialogTitle>Register New Repair</DialogTitle>
+          {loadError && (
+            <div className="p-2 text-xs font-medium text-red-500 bg-red-500/10 rounded border border-red-500/20">
+              {loadError}
+            </div>
+          )}
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -200,9 +220,13 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {clients.map((c) => (
-                          <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
-                        ))}
+                        {Array.isArray(clients) && clients.length > 0 ? (
+                          clients.map((c) => (
+                            <SelectItem key={c.id} value={c.id.toString()}>{c.name}</SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="0" disabled>No clients available</SelectItem>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -226,9 +250,13 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {technicians.map((t) => (
-                          <SelectItem key={t.id} value={t.id.toString()}>{t.name}</SelectItem>
-                        ))}
+                        {Array.isArray(technicians) && technicians.length > 0 ? (
+                          technicians.map((t) => (
+                            <SelectItem key={t.id} value={t.id.toString()}>{t.name}</SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="0" disabled>No technicians available</SelectItem>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />

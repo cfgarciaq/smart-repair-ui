@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CreateRepairModal } from "@/components/repairs/CreateRepairModal";
+import { DeleteRepairModal } from "@/components/repairs/DeleteRepairModal";
 import { getRepairs, updateRepair, deleteRepair } from "@/services/repairsService";
 import type { Repair } from "@/models/Repair";
 import { useToast } from "@/hooks/use-toast";
@@ -44,6 +45,7 @@ const RepairsList = () => {
   const [selectedRepair, setSelectedRepair] = useState<Repair | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
   // Pagination & Filters State
   const [page, setPage] = useState(1);
@@ -118,10 +120,6 @@ const RepairsList = () => {
   const handleDelete = async () => {
     if (!selectedRepair) return;
     
-    if (!window.confirm(`Are you sure you want to delete repair #${selectedRepair.id}?`)) {
-      return;
-    }
-
     try {
       setIsUpdating(true);
       await deleteRepair(selectedRepair.id);
@@ -130,6 +128,7 @@ const RepairsList = () => {
         title: "Repair Deleted",
         description: `Repair #${selectedRepair.id} has been successfully removed.`,
       });
+      setIsDeleteDialogOpen(false);
       closeSheet();
       fetchData();
     } catch (error) {
@@ -234,7 +233,7 @@ const RepairsList = () => {
             variant="ghost" 
             className="h-8 w-8 hover:bg-muted text-red-600 hover:text-red-500"
             title="Delete"
-            onClick={handleDelete}
+            onClick={() => setIsDeleteDialogOpen(true)}
             disabled={isUpdating}
           >
             <Trash2 className="h-4 w-4" />
@@ -524,6 +523,15 @@ const RepairsList = () => {
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteRepairModal
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        repairId={selectedRepair?.id}
+        isDeleting={isUpdating}
+      />
     </div>
   );
 };

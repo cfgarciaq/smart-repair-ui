@@ -1,7 +1,8 @@
 import httpClient from "../api/httpClient";
-import type { Repair } from "../models/Repair";
+import type { Repair, Technician } from "../models/Repair";
 import type { PagedResult } from "../models/PagedResult";
 import { AxiosError } from "axios";
+import type { Client } from "@/models/Client";
 
 export interface RepairFilters {
   search?: string;
@@ -83,7 +84,7 @@ export const updateRepair = async (id: number, data: Partial<Repair>): Promise<R
   }
 };
 
-export const createRepair = async (data: any): Promise<Repair> => {
+export const createRepair = async (data: Partial<Repair>): Promise<Repair> => {
   try {
     const response = await httpClient.post<Repair>("/repairs", data);
     return response.data;
@@ -93,9 +94,9 @@ export const createRepair = async (data: any): Promise<Repair> => {
   }
 };
 
-export const getClients = async (): Promise<any[]> => {
+export const getClients = async (): Promise<Client[]> => {
   try {
-    const response = await httpClient.get<any[]>("/clients");
+    const response = await httpClient.get<Client[]>("/clients");
     return response.data;
   } catch (error) {
     console.error("Error fetching clients:", error);
@@ -103,9 +104,9 @@ export const getClients = async (): Promise<any[]> => {
   }
 };
 
-export const getTechnicians = async (): Promise<any[]> => {
+export const getTechnicians = async (): Promise<Technician[]> => {
   try {
-    const response = await httpClient.get<any[]>("/technicians");
+    const response = await httpClient.get<Technician[]>("/technicians");
     return response.data;
   } catch (error) {
     console.error("Error fetching technicians:", error);

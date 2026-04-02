@@ -26,6 +26,8 @@ import {
 import { Plus } from "lucide-react";
 import { getClients, getTechnicians, createRepair } from "@/services/repairsService";
 import { useToast } from "@/hooks/use-toast";
+import type { Client } from "@/models/Client";
+import type { Technician } from "@/models/Repair";
 
 // Definition of Zod schema for repair form validation Zod
 const repairSchema = z.object({
@@ -53,8 +55,8 @@ interface CreateRepairModalProps {
 export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
   const { addToast } = useToast();
   const [open, setOpen] = useState(false);
-  const [clients, setClients] = useState<any[]>([]);
-  const [technicians, setTechnicians] = useState<any[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Inicializamos el formulario con el tipo inferido de Zod

@@ -25,7 +25,7 @@ import type { Repair } from "@/models/Repair";
 import { 
   History, User, Wrench, DollarSign, Calendar, Search, 
   ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
-  Edit2, Save, X, Trash2 
+  Save, X, Trash2, CircleUserRound, Pencil 
 } from "lucide-react";
 
 const RepairsList = () => {
@@ -120,22 +120,44 @@ const RepairsList = () => {
   };
 
   const renderSheetActions = () => (
-    <div className="flex gap-2">
+    <div className="flex gap-2 mr-6">
       {isEditing ? (
         <>
-          <Button size="sm" variant="outline" onClick={() => setIsEditing(false)} className="h-8">
-            <X className="h-4 w-4 mr-1" /> Cancel
+          <Button 
+            size="icon" 
+            variant="ghost" 
+            onClick={() => setIsEditing(false)} 
+            className="h-8 w-8 hover:bg-muted text-muted-foreground hover:text-foreground"
+            title="Cancel"
+          >
+            <X className="h-4 w-4" />
           </Button>
-          <Button size="sm" className="h-8 bg-green-600 hover:bg-green-700">
-            <Save className="h-4 w-4 mr-1" /> Save
+          <Button 
+            size="icon" 
+            variant="ghost" 
+            className="h-8 w-8 hover:bg-muted text-green-600 hover:text-green-500"
+            title="Save"
+          >
+            <Save className="h-4 w-4" />
           </Button>
         </>
       ) : (
         <>
-          <Button size="sm" variant="outline" onClick={() => setIsEditing(true)} className="h-8">
-            <Edit2 className="h-4 w-4 mr-1" /> Edit
+          <Button 
+            size="icon" 
+            variant="ghost" 
+            onClick={() => setIsEditing(true)} 
+            className="h-8 w-8 hover:bg-muted text-muted-foreground hover:text-foreground"
+            title="Edit"
+          >
+            <Pencil className="h-4 w-4" />
           </Button>
-          <Button size="sm" variant="destructive" className="h-8">
+          <Button 
+            size="icon" 
+            variant="ghost" 
+            className="h-8 w-8 hover:bg-muted text-red-600 hover:text-red-500"
+            title="Delete"
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         </>
@@ -148,50 +170,43 @@ const RepairsList = () => {
   return (
     <div className="space-y-4">
       {/* Header Bar */}
-      <div className="flex flex-col md:flex-row gap-4 items-end">
-        <CreateRepairModal />
-        
-        <form onSubmit={handleSearch} className="flex flex-wrap items-end gap-4 p-4 bg-card/50 backdrop-blur-md rounded-lg border shadow-sm flex-1 justify-end">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Search</label>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input
-                type="text"
-                placeholder="Client, Device, Tech..."
-                className="pl-9 h-10 w-[200px] rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Min Price</label>
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <form onSubmit={handleSearch} className="flex flex-wrap items-center gap-3 p-2 bg-background/50 backdrop-blur-md rounded-lg border shadow-sm flex-1">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
-              type="number"
-              placeholder="0"
-              className="h-10 w-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={minCost}
-              onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
+              type="text"
+              placeholder="Search repairs..."
+              className="pl-9 h-9 w-[220px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Max Price</label>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Price</span>
             <input
               type="number"
-              placeholder="1000"
-              className="h-10 w-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm"
+              placeholder="Min"
+              className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm"
+              value={minCost}
+              onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
+            />
+            <input
+              type="number"
+              placeholder="Max"
+              className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm"
               value={maxCost}
               onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Page Size</label>
+          <div className="h-6 w-[1px] bg-border mx-1" />
+
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Show</span>
             <select
-              className="h-10 w-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-9 w-[65px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-1 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               value={pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
@@ -204,43 +219,56 @@ const RepairsList = () => {
             </select>
           </div>
 
-          <Button type="submit" className="h-10">
-            <Search className="mr-2 h-4 w-4" /> Search
+          <Button type="submit" size="sm" variant="secondary" className="h-9 px-3">
+            <Search className="h-4 w-4" />
           </Button>
         </form>
+
+        <CreateRepairModal />
       </div>
 
       {/* Table */}
       <div className="rounded-md border bg-card/50 backdrop-blur-md shadow-sm overflow-hidden">
         <Table>
           <TableCaption>A list of recent device repairs.</TableCaption>
-          <TableHeader className="bg-muted/50">
-            <TableRow>
-              <TableHead className="w-[80px] font-bold cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("createdat")}>
-                <div className="flex items-center">Date {getSortIcon("createdat")}</div>
+          <TableHeader className="bg-muted/30">
+            <TableRow className="hover:bg-transparent border-b border-border/50">
+              <TableHead className="w-[100px] font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("createdat")}>
+                <div className="flex items-center gap-1">Date {getSortIcon("createdat")}</div>
               </TableHead>
-              <TableHead className="font-bold cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("client")}>
-                <div className="flex items-center">Client {getSortIcon("client")}</div>
+              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("client")}>
+                <div className="flex items-center gap-1">Client {getSortIcon("client")}</div>
               </TableHead>
-              <TableHead className="font-bold cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("device")}>
-                <div className="flex items-center">Device {getSortIcon("device")}</div>
+              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("device")}>
+                <div className="flex items-center gap-1">Device {getSortIcon("device")}</div>
               </TableHead>
-              <TableHead className="font-bold">Status</TableHead>
-              <TableHead className="text-right font-bold cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("cost")}>
-                <div className="flex items-center justify-end">Cost {getSortIcon("cost")}</div>
+              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("technician")}>
+                <div className="flex items-center gap-1">Technician {getSortIcon("technician")}</div>
+              </TableHead>
+              <TableHead className="font-semibold text-muted-foreground">Status</TableHead>
+              <TableHead className="text-right font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("cost")}>
+                <div className="flex items-center justify-end gap-1">Cost {getSortIcon("cost")}</div>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow><TableCell colSpan={5} className="text-center h-32">Loading repairs...</TableCell></TableRow>
+              <TableRow><TableCell colSpan={6} className="text-center h-32 text-muted-foreground italic">Loading repairs...</TableCell></TableRow>
+            ) : repairs.length === 0 ? (
+              <TableRow><TableCell colSpan={6} className="text-center h-32 text-muted-foreground italic">No repairs found.</TableCell></TableRow>
             ) : repairs.map((repair) => (
-              <TableRow key={repair.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => setSelectedRepair(repair)}>
-                <TableCell className="font-medium">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
-                <TableCell>{repair.client?.name || "N/A"}</TableCell>
-                <TableCell>{repair.device}</TableCell>
+              <TableRow key={repair.id} className="cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/40" onClick={() => setSelectedRepair(repair)}>
+                <TableCell className="font-medium text-foreground/90">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
+                <TableCell className="text-foreground/80">{repair.client?.name || "N/A"}</TableCell>
+                <TableCell className="text-foreground/80">{repair.device}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-foreground/80">
+                    <CircleUserRound className="h-4 w-4 text-muted-foreground/70" />
+                    <span>{repair.technician?.name || "Unassigned"}</span>
+                  </div>
+                </TableCell>
                 <TableCell>{getStatusBadge(repair.status)}</TableCell>
-                <TableCell className="text-right font-semibold">${repair.cost.toFixed(2)}</TableCell>
+                <TableCell className="text-right font-semibold text-primary/90">${repair.cost.toFixed(2)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -308,6 +336,17 @@ const RepairsList = () => {
                     <p className="text-sm font-semibold">Client Information</p>
                     <p className="text-sm text-muted-foreground">{selectedRepair.client?.name}</p>
                     <p className="text-xs text-muted-foreground">{selectedRepair.client?.phone}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
+                  <CircleUserRound className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold">Technician</p>
+                    <p className="text-sm text-muted-foreground">{selectedRepair.technician?.name || "Unassigned"}</p>
+                    {selectedRepair.technician?.specialization && (
+                      <p className="text-xs text-muted-foreground italic">{selectedRepair.technician.specialization}</p>
+                    )}
                   </div>
                 </div>
 

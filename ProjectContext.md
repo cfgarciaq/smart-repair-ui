@@ -5,8 +5,11 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 
 ## Last Implemented Features
 - **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
-- **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, and Side Panels (Sheet).
+- **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, Side Panels (Sheet), and Filter Bar.
 - **Advanced Table UI**: Clickable headers for sorting (Date, Client, Device, Technician, Cost) with visual indicators and server-side integration.
+- **Technician Column**: Restored with `CircleUserRound` icon for better visual identification.
+- **Compact Filter Bar**: Single-row layout with glassmorphism inputs and improved spacing.
+- **Refactored Sidebar Actions**: Minimalist icon-only buttons (Pencil, Trash2, Save, X) with hover effects and collision avoidance.
 - **Theme Support**: Light/Dark mode toggle with automatic system preference detection.
 - **UI Rebranding**: Premium sticky header with "SMART REPAIR" typography and professional description.
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.

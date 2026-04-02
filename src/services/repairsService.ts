@@ -113,3 +113,17 @@ export const getTechnicians = async (): Promise<Technician[]> => {
     return [];
   }
 };
+
+
+/**
+ * Deletes a repair by its ID.
+ * @param id The ID of the repair to delete.
+ */
+export const deleteRepair = async (id: number): Promise<void> => {
+  try {
+    await httpClient.delete(`/repairs/${id}`);
+  } catch (error) {
+    console.error(`Error deleting repair ${id}:`, error); // Log error for debugging
+    throw error; // Re-throw to handle in UI
+  }
+};

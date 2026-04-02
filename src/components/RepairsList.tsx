@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CreateRepairModal } from "@/components/repairs/CreateRepairModal";
-import { getRepairs, updateRepair } from "@/services/repairsService";
+import { getRepairs, updateRepair, deleteRepair } from "@/services/repairsService";
 import type { Repair } from "@/models/Repair";
 import { useToast } from "@/hooks/use-toast";
 import { 
@@ -105,6 +105,39 @@ const RepairsList = () => {
         id: `error-${selectedRepair.id}`,
         title: "Update Failed",
         description: "There was an error updating the repair.",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  /**
+   * Handles the deletion of a repair.
+   * Asks for confirmation before calling the service.
+   */
+  const handleDelete = async () => {
+    if (!selectedRepair) return;
+    
+    if (!window.confirm(`Are you sure you want to delete repair #${selectedRepair.id}?`)) {
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+      await deleteRepair(selectedRepair.id);
+      addToast({
+        id: `delete-${selectedRepair.id}`,
+        title: "Repair Deleted",
+        description: `Repair #${selectedRepair.id} has been successfully removed.`,
+      });
+      closeSheet();
+      fetchData();
+    } catch (error) {
+      console.error("Delete error:", error);
+      addToast({
+        id: `error-delete-${selectedRepair.id}`,
+        title: "Delete Failed",
+        description: "There was an error deleting the repair.",
       });
     } finally {
       setIsUpdating(false);
@@ -201,6 +234,8 @@ const RepairsList = () => {
             variant="ghost" 
             className="h-8 w-8 hover:bg-muted text-red-600 hover:text-red-500"
             title="Delete"
+            onClick={handleDelete}
+            disabled={isUpdating}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

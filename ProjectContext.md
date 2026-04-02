@@ -10,6 +10,9 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Technician Column**: Restored with `CircleUserRound` icon for better visual identification.
 - **Compact Filter Bar**: Single-row layout with glassmorphism inputs and improved spacing.
 - **Refactored Sidebar Actions**: Minimalist icon-only buttons (Pencil, Trash2, Save, X) with hover effects and collision avoidance.
+- **Editable Device Field**: Users can now edit the Device field in the repair details panel to correct typos or update information.
+- **Status Selection**: Added dropdown to change repair status (Pending, In Progress, Completed, etc.) directly from the detail panel.
+- **Robust Data Loading**: Improved error handling in modals to prevent white screens when API endpoints are temporarily unavailable.
 - **Theme Support**: Light/Dark mode toggle with automatic system preference detection.
 - **UI Rebranding**: Premium sticky header with "SMART REPAIR" typography and professional description.
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.

@@ -32,3 +32,4 @@
   - Implemented robust error handling with Promise.allSettled to prevent UI crashes
   - Added Status selection dropdown for workflow transitions
   - Enhanced loading states and error feedback throughout the application
+- **Security Check**: Verified axios version is 1.13.6 (not vulnerable 1.14.1 with plain-crypto-js).

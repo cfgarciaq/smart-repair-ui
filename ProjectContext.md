@@ -18,6 +18,7 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.
 - **Multilingual README**: Added support for Spanish, English, and French.
 - **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
+- **UI Polish**: Replaced the default Vite favicon with a thematic Wrench (🔧) emoji SVG for better brand identity.
 - **Repair Deletion**: Implemented `deleteRepair` in `repairsService.ts` and a custom `DeleteRepairModal` component for a professional deletion workflow.
 - **Documentation Refactor**: Reorganized `Agents.md` following progressive disclosure principles, moving specialized conventions to `docs/conventions/`.
 - **Critical Fixes**:

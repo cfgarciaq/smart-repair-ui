@@ -194,7 +194,7 @@ const RepairsList = () => {
   };
 
   const renderSheetActions = () => (
-    <div className="flex gap-2 mr-6">
+    <div className="flex gap-2 mr-8">
       {isEditing ? (
         <>
           <Button 
@@ -249,60 +249,64 @@ const RepairsList = () => {
     <div className="space-y-4">
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-        <form onSubmit={handleSearch} className="flex flex-wrap items-center gap-3 p-2 bg-background/50 backdrop-blur-md rounded-lg border shadow-sm flex-1">
-          <div className="relative flex-1">
+        <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-3 p-2 bg-background/50 backdrop-blur-md rounded-lg border shadow-sm w-full md:flex-1">
+          <div className="relative w-full md:flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search repairs..."
-              className="pl-9 h-9 w-full rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all"
+              className="pl-9 h-9 w-full rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all text-foreground placeholder:text-muted-foreground"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Price</span>
-            <input
-              type="number"
-              placeholder="Min"
-              className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm"
-              value={minCost}
-              onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
-            />
-            <input
-              type="number"
-              placeholder="Max"
-              className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm"
-              value={maxCost}
-              onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
-            />
+          <div className="flex items-center justify-between w-full md:w-auto gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">Price</span>
+              <input
+                type="number"
+                placeholder="Min"
+                className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm text-foreground placeholder:text-muted-foreground"
+                value={minCost}
+                onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
+              />
+              <input
+                type="number"
+                placeholder="Max"
+                className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm text-foreground placeholder:text-muted-foreground"
+                value={maxCost}
+                onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
+              />
+            </div>
+
+            <div className="h-6 w-[1px] bg-border hidden md:block mx-1" />
+
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">Show</span>
+              <select
+                className="h-9 w-[65px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-1 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-foreground"
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setPage(1);
+                }}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
+
+            <Button type="submit" size="sm" variant="secondary" className="h-9 px-3">
+              <Search className="h-4 w-4" />
+            </Button>
           </div>
-
-          <div className="h-6 w-[1px] bg-border mx-1" />
-
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Show</span>
-            <select
-              className="h-9 w-[65px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-1 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setPage(1);
-              }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-            </select>
-          </div>
-
-          <Button type="submit" size="sm" variant="secondary" className="h-9 px-3">
-            <Search className="h-4 w-4" />
-          </Button>
         </form>
 
-        <CreateRepairModal onSuccess={fetchData} />
+        <div className="w-full md:w-auto flex justify-center">
+          <CreateRepairModal onSuccess={fetchData} />
+        </div>
       </div>
 
       {/* Table */}
@@ -311,7 +315,7 @@ const RepairsList = () => {
           <TableCaption>A list of recent device repairs.</TableCaption>
           <TableHeader className="bg-muted/30">
             <TableRow className="hover:bg-transparent border-b border-border/50">
-              <TableHead className="w-[100px] font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("createdat")}>
+              <TableHead className="w-[100px] font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors hidden sm:table-cell" onClick={() => handleSort("createdat")}>
                 <div className="flex items-center gap-1">Date {getSortIcon("createdat")}</div>
               </TableHead>
               <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("client")}>
@@ -320,7 +324,7 @@ const RepairsList = () => {
               <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("device")}>
                 <div className="flex items-center gap-1">Device {getSortIcon("device")}</div>
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("technician")}>
+              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors hidden md:table-cell" onClick={() => handleSort("technician")}>
                 <div className="flex items-center gap-1">Technician {getSortIcon("technician")}</div>
               </TableHead>
               <TableHead className="font-semibold text-muted-foreground">Status</TableHead>
@@ -336,10 +340,10 @@ const RepairsList = () => {
               <TableRow><TableCell colSpan={6} className="text-center h-32 text-muted-foreground italic">No repairs found.</TableCell></TableRow>
             ) : repairs.map((repair) => (
               <TableRow key={repair.id} className="cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/40" onClick={() => setSelectedRepair(repair)}>
-                <TableCell className="font-medium text-foreground/90">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
+                <TableCell className="font-medium text-foreground/90 hidden sm:table-cell">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
                 <TableCell className="text-foreground/80">{repair.client?.name || "N/A"}</TableCell>
                 <TableCell className="text-foreground/80">{repair.device}</TableCell>
-                <TableCell>
+                <TableCell className="hidden md:table-cell">
                   <div className="flex items-center gap-2 text-foreground/80">
                     <CircleUserRound className="h-4 w-4 text-muted-foreground/70" />
                     <span>{repair.technician?.name || "Unassigned"}</span>
@@ -377,7 +381,7 @@ const RepairsList = () => {
               </SheetTitle>
               {selectedRepair && renderSheetActions()}
             </div>
-            <SheetDescription>
+            <SheetDescription className="pt-2">
               {isEditing ? "Editing mode active." : "Comprehensive view of the repair status and history."}
             </SheetDescription>
           </SheetHeader>
@@ -393,7 +397,7 @@ const RepairsList = () => {
                       value={selectedRepair.status} 
                       onValueChange={(val) => setSelectedRepair({...selectedRepair, status: val})}
                     >
-                      <SelectTrigger className="h-8 w-32 bg-background/50">
+                      <SelectTrigger className="h-8 w-full sm:w-32 bg-background/50">
                         <SelectValue placeholder="Status" />
                       </SelectTrigger>
                       <SelectContent>
@@ -415,7 +419,7 @@ const RepairsList = () => {
                       <DollarSign className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
                       <Input 
                         type="number" 
-                        className="pl-7 h-8 w-28 text-right font-bold bg-background/50" 
+                        className="pl-8 h-8 w-full sm:w-28 text-right font-bold bg-background/50" 
                         value={selectedRepair.cost} 
                         onChange={(e) => setSelectedRepair({...selectedRepair, cost: Number(e.target.value)})}
                       />

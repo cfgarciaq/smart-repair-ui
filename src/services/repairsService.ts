@@ -96,7 +96,7 @@ export const createRepair = async (data: Partial<Repair>): Promise<Repair> => {
 
 export const getClients = async (): Promise<Client[]> => {
   try {
-    const response = await httpClient.get<Client[]>("/clients");
+    const response = await httpClient.get<Client[]>("/clients/all");
     return response.data;
   } catch (error) {
     console.error("Error fetching clients:", error);

@@ -23,6 +23,8 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 - **Critical Fixes**:
   - Fixed "White Screen of Death" in `CreateRepairModal.tsx` by adding defensive mapping (`Array.isArray`) and robust error handling.
   - Resolved 404 error for `/api/technicians` by implementing the `TechniciansController` in the backend.
+  - Added `api/clients/all` endpoint to `ClientsController.cs` to provide a non-paginated list for frontend selectors.
+  - Fixed accessibility warnings in `CreateRepairModal.tsx` and `DeleteRepairModal.tsx` by adding `DialogDescription`.
   - Added visual error feedback in the creation modal when data fails to load.
 
 ## Backend Status

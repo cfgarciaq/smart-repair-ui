@@ -8,6 +8,7 @@ import { typedZodResolver } from "@/lib/zod-helpers";
 import { 
   Dialog, 
   DialogContent, 
+  DialogDescription,
   DialogHeader, 
   DialogTitle, 
   DialogTrigger 
@@ -142,6 +143,9 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
       <DialogContent className="sm:max-w-[425px] bg-background/95 backdrop-blur-xl border shadow-2xl">
         <DialogHeader>
           <DialogTitle>Register New Repair</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to register a new device repair in the system.
+          </DialogDescription>
           {loadError && (
             <div className="p-2 text-xs font-medium text-red-500 bg-red-500/10 rounded border border-red-500/20">
               {loadError}

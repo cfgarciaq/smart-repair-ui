@@ -32,7 +32,16 @@ function App() {
           <h1 className="text-2xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
             SMART REPAIR
           </h1>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleTheme} 
+            className={`rounded-full transition-all duration-300 ${
+              theme === "dark" 
+                ? "bg-[#F8F9FA] text-[#21242A] hover:bg-[#F8F9FA]/90" 
+                : "bg-[#21242A] text-[#F8F9FA] hover:bg-[#21242A]/90"
+            }`}
+          >
             {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
           </Button>
         </div>

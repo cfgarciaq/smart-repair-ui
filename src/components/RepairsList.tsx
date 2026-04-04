@@ -194,49 +194,40 @@ const RepairsList = () => {
   };
 
   const renderSheetActions = () => (
-    <div className="flex gap-2 mr-8">
+    <div className="flex gap-3 w-full">
       {isEditing ? (
         <>
           <Button 
-            size="icon" 
-            variant="ghost" 
+            variant="outline" 
             onClick={() => setIsEditing(false)} 
-            className="h-8 w-8 hover:bg-muted text-muted-foreground hover:text-foreground"
-            title="Cancel"
+            className="flex-1 bg-background/50 backdrop-blur-sm border-muted-foreground/20 hover:bg-muted"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4 mr-2" /> Cancel
           </Button>
           <Button 
-            size="icon" 
-            variant="ghost" 
-            className="h-8 w-8 hover:bg-muted text-green-600 hover:text-green-500"
-            title="Save"
+            className="flex-1 bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-900/20"
             onClick={handleUpdate}
             disabled={isUpdating}
           >
-            <Save className="h-4 w-4" />
+            <Save className="h-4 w-4 mr-2" /> {isUpdating ? "Saving..." : "Save Changes"}
           </Button>
         </>
       ) : (
         <>
           <Button 
-            size="icon" 
-            variant="ghost" 
+            variant="outline" 
             onClick={() => setIsEditing(true)} 
-            className="h-8 w-8 hover:bg-muted text-muted-foreground hover:text-foreground"
-            title="Edit"
+            className="flex-1 bg-background/50 backdrop-blur-sm border-muted-foreground/20 hover:bg-muted"
           >
-            <Pencil className="h-4 w-4" />
+            <Pencil className="h-4 w-4 mr-2" /> Edit Repair
           </Button>
           <Button 
-            size="icon" 
-            variant="ghost" 
-            className="h-8 w-8 hover:bg-muted text-red-600 hover:text-red-500"
-            title="Delete"
+            variant="destructive"
+            className="flex-1 bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-900/20"
             onClick={() => setIsDeleteDialogOpen(true)}
             disabled={isUpdating}
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4 mr-2" /> Delete
           </Button>
         </>
       )}
@@ -250,42 +241,52 @@ const RepairsList = () => {
       {/* Header Bar */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-3 p-2 bg-background/50 backdrop-blur-md rounded-lg border shadow-sm w-full md:flex-1">
-          <div className="relative w-full md:flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search repairs..."
-              className="pl-9 h-9 w-full rounded-md border border-input bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-all text-foreground placeholder:text-muted-foreground"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          <div className="relative w-full md:flex-1 flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search repairs..."
+                  className="pl-9 h-9 w-full rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <Button 
+                type="submit" 
+                size="sm" 
+                className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white border-none shadow-brand-glow shrink-0 transition-all active:scale-95"
+              >
+                <Search className="h-4 w-4 mr-2" />
+                <span className="font-medium">Search</span>
+              </Button>
           </div>
 
           <div className="flex items-center justify-between w-full md:w-auto gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">Price</span>
-              <input
-                type="number"
-                placeholder="Min"
-                className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                value={minCost}
-                onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                className="h-9 w-[70px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-2 py-2 text-sm text-foreground placeholder:text-muted-foreground"
-                value={maxCost}
-                onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
-              />
-            </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">Price</span>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  className="pl-9 h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                  value={minCost}
+                  onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
+                />
+                <input
+                  type="number"
+                  placeholder="Max"
+                  className="pl-9 h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                  value={maxCost}
+                  onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
+                />
+              </div>
 
             <div className="h-6 w-[1px] bg-border hidden md:block mx-1" />
 
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold text-foreground uppercase tracking-wider">Show</span>
               <select
-                className="h-9 w-[65px] rounded-md border border-input bg-background/50 backdrop-blur-sm px-1 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-foreground"
+                className="h-9 w-[65px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
                 value={pageSize}
                 onChange={(e) => {
                   setPageSize(Number(e.target.value));
@@ -297,10 +298,6 @@ const RepairsList = () => {
                 <option value={20}>20</option>
               </select>
             </div>
-
-            <Button type="submit" size="sm" variant="secondary" className="h-9 px-3">
-              <Search className="h-4 w-4" />
-            </Button>
           </div>
         </form>
 
@@ -327,7 +324,9 @@ const RepairsList = () => {
               <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors hidden md:table-cell" onClick={() => handleSort("technician")}>
                 <div className="flex items-center gap-1">Technician {getSortIcon("technician")}</div>
               </TableHead>
-              <TableHead className="font-semibold text-muted-foreground">Status</TableHead>
+              <TableHead className="font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("status")}>
+                <div className="flex items-center gap-1">Status {getSortIcon("status")}</div>
+              </TableHead>
               <TableHead className="text-right font-semibold text-muted-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort("cost")}>
                 <div className="flex items-center justify-end gap-1">Cost {getSortIcon("cost")}</div>
               </TableHead>
@@ -372,157 +371,163 @@ const RepairsList = () => {
 
       {/* Detail Sheet */}
       <Sheet open={!!selectedRepair} onOpenChange={closeSheet}>
-        <SheetContent className="sm:max-w-md bg-background/80 backdrop-blur-xl border-l shadow-2xl overflow-y-auto">
-          <SheetHeader className="border-b pb-4">
-            <div className="flex items-center justify-between">
+        <SheetContent className="sm:max-w-md bg-background/80 backdrop-blur-xl border-l shadow-2xl flex flex-col p-0">
+          <div className="flex-1 overflow-y-auto p-6 pb-24">
+            <SheetHeader className="border-b pb-4">
               <SheetTitle className="text-2xl flex items-center gap-2">
                 <Wrench className="h-6 w-6 text-primary" />
                 Repair #{selectedRepair?.id}
               </SheetTitle>
-              {selectedRepair && renderSheetActions()}
-            </div>
-            <SheetDescription className="pt-2">
-              {isEditing ? "Editing mode active." : "Comprehensive view of the repair status and history."}
-            </SheetDescription>
-          </SheetHeader>
+              <SheetDescription className="pt-2">
+                {isEditing ? "Editing mode active." : "Comprehensive view of the repair status and history."}
+              </SheetDescription>
+            </SheetHeader>
 
-          {selectedRepair && (
-            <div className="py-6 space-y-6">
-              {/* Status & Cost */}
-              <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
-                <div className="space-y-1">
-                  <p className="text-xs font-medium text-muted-foreground uppercase">Status</p>
-                  {isEditing ? (
-                    <Select 
-                      value={selectedRepair.status} 
-                      onValueChange={(val) => setSelectedRepair({...selectedRepair, status: val})}
-                    >
-                      <SelectTrigger className="h-8 w-full sm:w-32 bg-background/50">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Pending">Pending</SelectItem>
-                        <SelectItem value="InProgress">In Progress</SelectItem>
-                        <SelectItem value="Completed">Completed</SelectItem>
-                        <SelectItem value="Delivered">Delivered</SelectItem>
-                        <SelectItem value="Cancelled">Cancelled</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  ) : (
-                    getStatusBadge(selectedRepair.status)
-                  )}
-                </div>
-                <div className="text-right space-y-1">
-                  <p className="text-xs font-medium text-muted-foreground uppercase">Total Cost</p>
-                  {isEditing ? (
-                    <div className="relative">
-                      <DollarSign className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
-                      <Input 
-                        type="number" 
-                        className="pl-8 h-8 w-full sm:w-28 text-right font-bold bg-background/50" 
-                        value={selectedRepair.cost} 
-                        onChange={(e) => setSelectedRepair({...selectedRepair, cost: Number(e.target.value)})}
-                      />
-                    </div>
-                  ) : (
-                    <p className="text-2xl font-bold text-primary flex items-center justify-end">
-                      <DollarSign className="h-5 w-5" />
-                      {selectedRepair.cost.toFixed(2)}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Info Grid */}
-              <div className="grid grid-cols-1 gap-4">
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
-                  <User className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">Client Information</p>
-                    <p className="text-sm text-muted-foreground">{selectedRepair.client?.name}</p>
-                    <p className="text-xs text-muted-foreground">{selectedRepair.client?.phone}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
-                  <CircleUserRound className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">Technician</p>
-                    <p className="text-sm text-muted-foreground">{selectedRepair.technician?.name || "Unassigned"}</p>
-                    {selectedRepair.technician?.specialization && (
-                      <p className="text-xs text-muted-foreground italic">{selectedRepair.technician.specialization}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
-                  <Wrench className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div className="flex-1 space-y-2">
-                    <p className="text-sm font-semibold">Device & Issue</p>
+            {selectedRepair && (
+              <div className="py-6 space-y-6">
+                {/* Status & Cost */}
+                <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
+                  <div className="space-y-1">
+                    <p className="text-xs font-medium text-muted-foreground uppercase">Status</p>
                     {isEditing ? (
-                      <>
-                        <div className="space-y-1">
-                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Device</p>
-                          <Input 
-                            value={selectedRepair.device} 
-                            className="h-8 text-sm bg-background/50" 
-                            onChange={(e) => setSelectedRepair({...selectedRepair, device: e.target.value})}
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-[10px] text-muted-foreground uppercase font-bold">Description</p>
-                          <Textarea 
-                            value={selectedRepair.description} 
-                            className="text-sm min-h-[80px] bg-background/50" 
-                            onChange={(e) => setSelectedRepair({...selectedRepair, description: e.target.value})}
-                          />
-                        </div>
-                      </>
+                      <Select 
+                        value={selectedRepair.status} 
+                        onValueChange={(val) => setSelectedRepair({...selectedRepair, status: val})}
+                      >
+                        <SelectTrigger className="h-8 w-full sm:w-32 bg-background/50">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Pending">Pending</SelectItem>
+                          <SelectItem value="InProgress">In Progress</SelectItem>
+                          <SelectItem value="Completed">Completed</SelectItem>
+                          <SelectItem value="Delivered">Delivered</SelectItem>
+                          <SelectItem value="Cancelled">Cancelled</SelectItem>
+                        </SelectContent>
+                      </Select>
                     ) : (
-                      <>
-                        <p className="text-sm text-muted-foreground">{selectedRepair.device}</p>
-                        <p className="text-sm italic mt-1">"{selectedRepair.description}"</p>
-                      </>
+                      getStatusBadge(selectedRepair.status)
+                    )}
+                  </div>
+                  <div className="text-right space-y-1">
+                    <p className="text-xs font-medium text-muted-foreground uppercase">Total Cost</p>
+                    {isEditing ? (
+                      <div className="relative">
+                        <DollarSign className="absolute left-2 top-2 h-4 w-4 text-muted-foreground" />
+                        <Input 
+                          type="number" 
+                          className="pl-8 h-8 w-full sm:w-28 text-right font-bold bg-background/50" 
+                          value={selectedRepair.cost} 
+                          onChange={(e) => setSelectedRepair({...selectedRepair, cost: Number(e.target.value)})}
+                        />
+                      </div>
+                    ) : (
+                      <p className="text-2xl font-bold text-primary flex items-center justify-end">
+                        <DollarSign className="h-5 w-5" />
+                        {selectedRepair.cost.toFixed(2)}
+                      </p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
-                  <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold">Created At</p>
-                    <p className="text-sm text-muted-foreground">{formatDate(selectedRepair.createdAt)}</p>
+                {/* Info Grid */}
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
+                    <User className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold">Client Information</p>
+                      <p className="text-sm text-muted-foreground">{selectedRepair.client?.name}</p>
+                      <p className="text-xs text-muted-foreground">{selectedRepair.client?.phone}</p>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              {/* History Section */}
-              {!isEditing && (
-                <div className="space-y-3">
-                  <h4 className="text-sm font-bold flex items-center gap-2 px-1">
-                    <History className="h-4 w-4" />
-                    Status History
-                  </h4>
-                  <div className="relative space-y-4 pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
-                    {selectedRepair.history?.length > 0 ? (
-                      selectedRepair.history.map((h, idx) => (
-                        <div key={idx} className="relative">
-                          <div className="absolute -left-[22px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary" />
+                  <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
+                    <CircleUserRound className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold">Technician</p>
+                      <p className="text-sm text-muted-foreground">{selectedRepair.technician?.name || "Unassigned"}</p>
+                      {selectedRepair.technician?.specialization && (
+                        <p className="text-xs text-muted-foreground italic">{selectedRepair.technician.specialization}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
+                    <Wrench className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div className="flex-1 space-y-2">
+                      <p className="text-sm font-semibold">Device & Issue</p>
+                      {isEditing ? (
+                        <>
                           <div className="space-y-1">
-                            <div className="flex items-center justify-between">
-                              <p className="text-sm font-medium leading-none">{h.status}</p>
-                              <p className="text-xs text-muted-foreground">{formatDate(h.changedAt)}</p>
-                            </div>
-                            <p className="text-xs text-muted-foreground italic">{h.notes || "No comments."}</p>
+                            <p className="text-[10px] text-muted-foreground uppercase font-bold">Device</p>
+                            <Input 
+                              value={selectedRepair.device} 
+                              className="h-8 text-sm bg-background/50" 
+                              onChange={(e) => setSelectedRepair({...selectedRepair, device: e.target.value})}
+                            />
                           </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-xs text-muted-foreground italic pl-2">No history records found.</p>
-                    )}
+                          <div className="space-y-1">
+                            <p className="text-[10px] text-muted-foreground uppercase font-bold">Description</p>
+                            <Textarea 
+                              value={selectedRepair.description} 
+                              className="text-sm min-h-[80px] bg-background/50" 
+                              onChange={(e) => setSelectedRepair({...selectedRepair, description: e.target.value})}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm text-muted-foreground">{selectedRepair.device}</p>
+                          <p className="text-sm italic mt-1">"{selectedRepair.description}"</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-3 rounded-md border bg-card/50">
+                    <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
+                    <div>
+                      <p className="text-sm font-semibold">Created At</p>
+                      <p className="text-sm text-muted-foreground">{formatDate(selectedRepair.createdAt)}</p>
+                    </div>
                   </div>
                 </div>
-              )}
+
+                {/* History Section */}
+                {!isEditing && (
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-bold flex items-center gap-2 px-1">
+                      <History className="h-4 w-4" />
+                      Status History
+                    </h4>
+                    <div className="relative space-y-4 pl-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
+                      {selectedRepair.history?.length > 0 ? (
+                        selectedRepair.history.map((h, idx) => (
+                          <div key={idx} className="relative">
+                            <div className="absolute -left-[22px] top-1.5 h-3 w-3 rounded-full border-2 border-background bg-primary" />
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between">
+                                <p className="text-sm font-medium leading-none">{h.status}</p>
+                                <p className="text-xs text-muted-foreground">{formatDate(h.changedAt)}</p>
+                              </div>
+                              <p className="text-xs text-muted-foreground italic">{h.notes || "No comments."}</p>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-xs text-muted-foreground italic pl-2">No history records found.</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Fixed Footer Actions */}
+          {selectedRepair && (
+            <div className="absolute bottom-0 left-0 w-full p-6 bg-background/80 backdrop-blur-xl border-t shadow-[0_-10px_20px_rgba(0,0,0,0.1)]">
+              {renderSheetActions()}
             </div>
           )}
         </SheetContent>

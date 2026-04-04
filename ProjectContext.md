@@ -25,7 +25,15 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
   - **Mobile Optimization**:
     - Implemented responsive filter bar (vertical stack on mobile).
     - Optimized table scannability by hiding non-critical columns (Date, Technician) on small screens.
-    - Refined Side Panel (Sheet) layout with better button separation and improved input styling for mobile.
+    - Refined Side Panel (Sheet) layout with a fixed footer for action buttons, improving mobile usability and avoiding collision with the close button.
+    - Fixed hardcoded "0" value in the Create Repair Modal by initializing the cost field as an empty string.
+- **UI Overhaul (Pearl & Deep Obsidian)**:
+  - Updated global theme colors: Light Mode (Pearl #F8F9FA) and Dark Mode (Deep Obsidian #0D1117).
+  - Applied brand gradients to search and primary buttons.
+  - Redesigned theme toggle with inverted color logic for better visual weight.
+  - Repositioned search button next to the search input for improved UX.
+  - Implemented sorting functionality for the Status column.
+  - Updated technician dropdown to show specialization metadata.
 - **Repair Deletion**: Implemented `deleteRepair` in `repairsService.ts` and a custom `DeleteRepairModal` component for a professional deletion workflow.
 - **Documentation Refactor**: Reorganized `Agents.md` following progressive disclosure principles, moving specialized conventions to `docs/conventions/`.
 - **Critical Fixes**:

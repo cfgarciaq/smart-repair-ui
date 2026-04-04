@@ -38,8 +38,9 @@ const repairSchema = z.object({
   description: z.string()
     .min(1, "Description is required")
     .max(500, "Description cannot exceed 500 characters"),
-  cost: z.coerce.number()
-    .min(0, "Cost must be a non-negative value"),
+  cost: z.coerce.string()
+    .refine((val) => val === "" || !isNaN(Number(val)), "Cost must be a number")
+    .transform((val) => (val === "" ? 0 : Number(val))),
   clientId: z.coerce.number()
     .min(1, "Please select a client"),
   technicianId: z.coerce.number()
@@ -68,7 +69,7 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
     defaultValues: {
       device: "",
       description: "",
-      cost: 0,
+      cost: "" as unknown as number, // Initialize as empty string to avoid leading zero
       clientId: 0,
       technicianId: 0,
     },
@@ -136,8 +137,9 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="mr-2 h-4 w-4" /> New Repair
+        <Button className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white shadow-brand-glow border-none transition-all active:scale-95">
+          <Plus className="mr-2 h-4 w-4 text-white" />
+          <span className="text-white font-semibold">New Repair</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-background/95 backdrop-blur-xl border shadow-2xl">
@@ -162,7 +164,11 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                 <FormItem>
                   <FormLabel>Device</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. iPhone 15" {...field} className="bg-background/50" />
+                    <Input
+                      placeholder="e.g. iPhone 15"
+                      {...field}
+                      className="pl-9 h-9 w-full rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,10 +182,10 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Describe the issue..." 
-                      className="resize-none bg-background/50" 
-                      {...field} 
+                    <Textarea
+                      placeholder="Describe the issue..."
+                      className="resize-none rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -194,12 +200,14 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                 <FormItem>
                   <FormLabel>Cost</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="number" 
-                      step="0.01" 
+                    <Input
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
                       {...field}
-                      className="bg-background/50"
-                      onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                      value={field.value === 0 && form.formState.defaultValues?.cost === "" as unknown as number ? "" : field.value}
+                      className="pl-9 h-9 w-full rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                      onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -253,10 +261,15 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                           <SelectValue placeholder={loading ? "Loading..." : "Select a technician"} />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="bg-background/95 backdrop-blur-xl border-slate-200 dark:border-white/10">
                         {Array.isArray(technicians) && technicians.length > 0 ? (
                           technicians.map((t) => (
-                            <SelectItem key={t.id} value={t.id.toString()}>{t.name}</SelectItem>
+                            <SelectItem key={t.id} value={t.id.toString()} className="focus:bg-brand-gradient focus:text-white">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium">{t.name}</span>
+                                <span className="text-xs opacity-70 italic">— Spec: {t.specialization || "General"}</span>
+                              </div>
+                            </SelectItem>
                           ))
                         ) : (
                           <SelectItem value="0" disabled>No technicians available</SelectItem>

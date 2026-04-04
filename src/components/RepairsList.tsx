@@ -260,14 +260,14 @@ const RepairsList = () => {
                 <input
                   type="number"
                   placeholder="Min"
-                  className="pl-9 h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                  className="h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-2 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   value={minCost}
                   onChange={(e) => setMinCost(e.target.value === "" ? "" : Number(e.target.value))}
                 />
                 <input
                   type="number"
                   placeholder="Max"
-                  className="pl-9 h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all"
+                  className="h-9 w-[70px] rounded-md border border-slate-300/50 dark:border-white/10 bg-white/50 dark:bg-background/50 backdrop-blur-sm px-2 py-2 text-sm focus-visible:ring-1 focus-visible:ring-blue-400 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   value={maxCost}
                   onChange={(e) => setMaxCost(e.target.value === "" ? "" : Number(e.target.value))}
                 />

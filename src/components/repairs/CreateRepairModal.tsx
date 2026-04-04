@@ -266,7 +266,7 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
                       <SelectContent className="bg-background/95 backdrop-blur-xl border-slate-200 dark:border-white/10">
                         {Array.isArray(technicians) && technicians.length > 0 ? (
                           technicians.map((t) => (
-                            <SelectItem key={t.id} value={t.id.toString()} className="focus:bg-brand-gradient focus:text-white">
+                            <SelectItem key={t.id} value={t.id.toString()} className="focus:bg-black/5 dark:focus:bg-white/10 focus:text-foreground">
                               <div className="flex items-center gap-2">
                                 <span className="font-medium">{t.name}</span>
                                 <span className="text-xs opacity-70 italic">— 🔧 {t.specialization || "General"}</span>

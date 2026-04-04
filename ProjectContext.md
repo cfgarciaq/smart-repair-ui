@@ -10,6 +10,9 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
   - Enhanced `CreateRepairModal.tsx` with branded "+ New Repair" button and formatted technician dropdown (Name - 🔧 Specialization).
   - **Critical Fix**: Corrected button text contrast in Dark Mode (white text on pearl background was unreadable). Now uses `text-white dark:text-[#0D1117]`.
   - **UI Polish**: Removed `shadow-brand-glow` from primary buttons for a cleaner, flat look.
+  - **Input Fixes**:
+    - Corrected `SelectItem` hover/focus state in `CreateRepairModal.tsx` to be theme-adaptive (`focus:bg-black/5 dark:focus:bg-white/10`).
+    - Fixed Price Filter inputs in `RepairsList.tsx`: removed incorrect `pl-9` padding, adjusted internal spacing, and hidden browser-default number arrows for a cleaner, centered look.
   - Hardened `repairsService.ts` to ensure technician metadata loads safely with defensive array checks.
 - **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
 - **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, Side Panels (Sheet), and Filter Bar.

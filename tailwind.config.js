@@ -74,8 +74,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        // Use CSS variables so the gradient can adapt to the theme defined in CSS
-        'brand-gradient': 'linear-gradient(to right, var(--brand-start), var(--brand-end))',
+        'brand-gradient': 'linear-gradient(to right, #3b82f6, #2dd4bf)',
       },
       boxShadow: {
         'glass-light': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',

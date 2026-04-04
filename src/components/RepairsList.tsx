@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -36,6 +35,9 @@ import {
   ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
   Save, X, Trash2, CircleUserRound, Pencil 
 } from "lucide-react";
+import StatusBadge from "@/components/ui/status-badge";
+
+  const getStatusBadge = (status: string) => <StatusBadge status={status} />;
 
 const RepairsList = () => {
   const { addToast } = useToast();
@@ -173,17 +175,7 @@ const RepairsList = () => {
     );
   };
 
-  const getStatusBadge = (status: string) => {
-    const s = status.toLowerCase();
-    switch (s) {
-      case "pending": return <Badge variant="pending">Pending</Badge>;
-      case "inprogress": return <Badge variant="inProgress">In Progress</Badge>;
-      case "completed": return <Badge variant="completed">Completed</Badge>;
-      case "delivered": return <Badge variant="delivered">Delivered</Badge>;
-      case "cancelled": return <Badge variant="cancelled">Cancelled</Badge>;
-      default: return <Badge variant="outline">{status}</Badge>;
-    }
-  };
+  // Status rendering is handled by StatusBadge component (LED-style indicator)
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -255,8 +247,7 @@ const RepairsList = () => {
               <Button
                 type="submit"
                 size="sm"
-                className="h-9 px-4 bg-brand-gradient border-none shadow-brand-glow shrink-0 transition-all active:scale-95"
-                style={{ color: 'var(--brand-foreground)' }}
+                className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white dark:text-[#0D1117] border-none shrink-0 transition-all active:scale-95"
               >
                 <Search className="h-4 w-4 mr-2" />
                 <span className="font-medium">Search</span>

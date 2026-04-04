@@ -4,6 +4,13 @@
 The frontend is a modern React 19 application built with Vite, Tailwind CSS, and Shadcn UI. It features a premium "Obsidian" aesthetic with Glassmorphism effects.
 
 ## Last Implemented Features
+- **UI/UX Refinement**:
+  - Updated `tailwind.config.js` with `brand-gradient` (#3b82f6 to #2dd4bf) and neomorphic shadows (`glass-light`).
+  - Refactored `RepairsList.tsx` search button and inputs for better contrast and visibility in light mode (#F8F9FA).
+  - Enhanced `CreateRepairModal.tsx` with branded "+ New Repair" button and formatted technician dropdown (Name - 🔧 Specialization).
+  - **Critical Fix**: Corrected button text contrast in Dark Mode (white text on pearl background was unreadable). Now uses `text-white dark:text-[#0D1117]`.
+  - **UI Polish**: Removed `shadow-brand-glow` from primary buttons for a cleaner, flat look.
+  - Hardened `repairsService.ts` to ensure technician metadata loads safely with defensive array checks.
 - **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
 - **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, Side Panels (Sheet), and Filter Bar.
 - **Advanced Table UI**: Clickable headers for sorting (Date, Client, Device, Technician, Cost) with visual indicators and server-side integration.

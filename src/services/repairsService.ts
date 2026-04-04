@@ -107,7 +107,8 @@ export const getClients = async (): Promise<Client[]> => {
 export const getTechnicians = async (): Promise<Technician[]> => {
   try {
     const response = await httpClient.get<Technician[]>("/technicians");
-    return response.data;
+    // Ensure we always return an array to avoid runtime errors when mapping in components
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("Error fetching technicians:", error);
     return [];

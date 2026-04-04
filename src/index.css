@@ -33,6 +33,11 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    /* Brand gradient variables (defaults for light theme)
+       Background should be dark on light theme, text should be pearl. */
+    --brand-start: #21242A; /* Obsidian-ish for light theme buttons */
+    --brand-end: #21242A;
+    --brand-foreground: #F8F9FA; /* Text color that contrasts brand bg */
   }
 
   .dark {
@@ -63,6 +68,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    /* In dark mode we invert the brand gradient so buttons become light */
+    --brand-start: #F8F9FA; /* Pearl */
+    --brand-end: #F8F9FA;
+    --brand-foreground: #21242A; /* Dark text to contrast pearl bg */
   }
 }
 

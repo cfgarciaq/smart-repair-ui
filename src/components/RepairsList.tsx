@@ -252,10 +252,11 @@ const RepairsList = () => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <Button 
-                type="submit" 
-                size="sm" 
-                className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white border-none shadow-brand-glow shrink-0 transition-all active:scale-95"
+              <Button
+                type="submit"
+                size="sm"
+                className="h-9 px-4 bg-brand-gradient border-none shadow-brand-glow shrink-0 transition-all active:scale-95"
+                style={{ color: 'var(--brand-foreground)' }}
               >
                 <Search className="h-4 w-4 mr-2" />
                 <span className="font-medium">Search</span>

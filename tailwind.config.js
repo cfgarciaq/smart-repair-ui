@@ -74,7 +74,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'brand-gradient': 'linear-gradient(to right, #F8F9FA, #0D1117)', // Pearl to Obsidian branding gradient
+        // Use CSS variables so the gradient can adapt to the theme defined in CSS
+        'brand-gradient': 'linear-gradient(to right, var(--brand-start), var(--brand-end))',
       },
       boxShadow: {
         'glass-light': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',

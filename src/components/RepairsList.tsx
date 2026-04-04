@@ -33,7 +33,7 @@ import {
 import { 
   History, User, Wrench, DollarSign, Calendar, Search, 
   ChevronLeft, ChevronRight, ArrowUp, ArrowDown, ArrowUpDown,
-  Save, X, Trash2, CircleUserRound, Pencil 
+  Save, X, Trash2, CircleUserRound, Pencil, SearchX, RefreshCw 
 } from "lucide-react";
 import StatusBadge from "@/components/ui/status-badge";
 
@@ -290,6 +290,18 @@ const RepairsList = () => {
                 <option value={20}>20</option>
               </select>
             </div>
+
+            {error && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={fetchData}
+                className="h-9 px-2 text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 border border-amber-500/20"
+              >
+                <RefreshCw className="h-4 w-4 mr-1 animate-spin-slow" />
+                <span className="text-xs font-bold uppercase">Retry</span>
+              </Button>
+            )}
           </div>
         </form>
 
@@ -326,11 +338,34 @@ const RepairsList = () => {
           </TableHeader>
           <TableBody>
             {loading ? (
-              <TableRow><TableCell colSpan={6} className="text-center h-32 text-muted-foreground italic">Loading repairs...</TableCell></TableRow>
+              Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={`skeleton-${i}`} className="border-b border-border/40">
+                  <TableCell className="hidden sm:table-cell"><div className="h-4 w-20 bg-black/5 dark:bg-white/5 rounded animate-pulse" /></TableCell>
+                  <TableCell><div className="h-4 w-32 bg-black/5 dark:bg-white/5 rounded animate-pulse" /></TableCell>
+                  <TableCell><div className="h-4 w-24 bg-black/5 dark:bg-white/5 rounded animate-pulse" /></TableCell>
+                  <TableCell className="hidden md:table-cell"><div className="h-4 w-28 bg-black/5 dark:bg-white/5 rounded animate-pulse" /></TableCell>
+                  <TableCell><div className="h-6 w-20 bg-black/5 dark:bg-white/5 rounded-full animate-pulse" /></TableCell>
+                  <TableCell className="text-right"><div className="h-4 w-16 bg-black/5 dark:bg-white/5 rounded animate-pulse ml-auto" /></TableCell>
+                </TableRow>
+              ))
             ) : repairs.length === 0 ? (
-              <TableRow><TableCell colSpan={6} className="text-center h-32 text-muted-foreground italic">No repairs found.</TableCell></TableRow>
+              <TableRow>
+                <TableCell colSpan={6} className="h-64 text-center">
+                  <div className="flex flex-col items-center justify-center gap-3 text-slate-400/60">
+                    <SearchX className="h-12 w-12" />
+                    <div className="flex flex-col gap-1">
+                      <p className="text-lg font-medium">No matches found</p>
+                      <p className="text-sm">Try adjusting your filters or search terms.</p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
             ) : repairs.map((repair) => (
-              <TableRow key={repair.id} className="cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/40" onClick={() => setSelectedRepair(repair)}>
+              <TableRow 
+                key={repair.id} 
+                className="cursor-pointer hover:bg-muted/30 transition-colors border-b border-border/40 animate-in fade-in slide-in-from-bottom-1 duration-300" 
+                onClick={() => setSelectedRepair(repair)}
+              >
                 <TableCell className="font-medium text-foreground/90 hidden sm:table-cell">{formatDate(repair.createdAt).split(',')[0]}</TableCell>
                 <TableCell className="text-foreground/80">{repair.client?.name || "N/A"}</TableCell>
                 <TableCell className="text-foreground/80">{repair.device}</TableCell>

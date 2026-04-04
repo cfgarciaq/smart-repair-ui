@@ -13,6 +13,11 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
   - **Input Fixes**:
     - Corrected `SelectItem` hover/focus state in `CreateRepairModal.tsx` to be theme-adaptive (`focus:bg-black/5 dark:focus:bg-white/10`).
     - Fixed Price Filter inputs in `RepairsList.tsx`: removed incorrect `pl-9` padding, adjusted internal spacing, and hidden browser-default number arrows for a cleaner, centered look.
+  - **UX Final Polish**:
+    - **Skeleton Loaders**: Implemented shimmer-effect skeletons (`bg-black/5 dark:bg-white/5`) for data fetching states.
+    - **Empty State**: Added a minimalist "No matches found" view with `SearchX` icon for zero-result searches.
+    - **Entry Animations**: Added subtle `fade-in` and `slide-up` transitions to table rows for a smoother data loading experience.
+    - **Error Feedback**: Integrated an elegant amber retry badge with a `RefreshCw` icon that appears near filters when the API fails.
   - Hardened `repairsService.ts` to ensure technician metadata loads safely with defensive array checks.
 - **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
 - **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, Side Panels (Sheet), and Filter Bar.

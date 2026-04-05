@@ -1,7 +1,8 @@
 import httpClient from "../api/httpClient";
-import type { Repair } from "../models/Repair";
+import type { Repair, Technician } from "../models/Repair";
 import type { PagedResult } from "../models/PagedResult";
 import { AxiosError } from "axios";
+import type { Client } from "@/models/Client";
 
 export interface RepairFilters {
   search?: string;
@@ -70,5 +71,60 @@ export const getRepairById = async (id: number): Promise<Repair> => {
   } catch (error) {
     console.error(`Error fetching repair ${id}:`, error);
     throw error;
+  }
+};
+
+export const updateRepair = async (id: number, data: Partial<Repair>): Promise<Repair> => {
+  try {
+    const response = await httpClient.put<Repair>(`/repairs/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating repair ${id}:`, error);
+    throw error;
+  }
+};
+
+export const createRepair = async (data: Partial<Repair>): Promise<Repair> => {
+  try {
+    const response = await httpClient.post<Repair>("/repairs", data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating repair:", error);
+    throw error;
+  }
+};
+
+export const getClients = async (): Promise<Client[]> => {
+  try {
+    const response = await httpClient.get<Client[]>("/clients/all");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching clients:", error);
+    return [];
+  }
+};
+
+export const getTechnicians = async (): Promise<Technician[]> => {
+  try {
+    const response = await httpClient.get<Technician[]>("/technicians");
+    // Ensure we always return an array to avoid runtime errors when mapping in components
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching technicians:", error);
+    return [];
+  }
+};
+
+
+/**
+ * Deletes a repair by its ID.
+ * @param id The ID of the repair to delete.
+ */
+export const deleteRepair = async (id: number): Promise<void> => {
+  try {
+    await httpClient.delete(`/repairs/${id}`);
+  } catch (error) {
+    console.error(`Error deleting repair ${id}:`, error); // Log error for debugging
+    throw error; // Re-throw to handle in UI
   }
 };

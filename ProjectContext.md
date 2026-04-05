@@ -5,10 +5,9 @@ The frontend is a modern React 19 application built with Vite, Tailwind CSS, and
 
 ## Last Implemented Features
 - **UI/UX Refinement**:
-  - Updated `tailwind.config.js` with `brand-gradient` (#3b82f6 to #2dd4bf) and neomorphic shadows (`glass-light`).
   - Refactored `RepairsList.tsx` search button and inputs for better contrast and visibility in light mode (#F8F9FA).
   - Enhanced `CreateRepairModal.tsx` with branded "+ New Repair" button and formatted technician dropdown (Name - 🔧 Specialization).
-  - **Critical Fix**: Corrected button text contrast in Dark Mode (white text on pearl background was unreadable). Now uses `text-white dark:text-[#0D1117]`.
+  - **Critical Fix**: Reverted button color scheme to original Obsidian/Pearl aesthetic (Dark in Light mode, Pearl in Dark mode) using `bg-brand-gradient` and `text-brand-foreground`.
   - **UI Polish**: Removed `shadow-brand-glow` from primary buttons for a cleaner, flat look.
   - **Input Fixes**:
     - Corrected `SelectItem` hover/focus state in `CreateRepairModal.tsx` to be theme-adaptive (`focus:bg-black/5 dark:focus:bg-white/10`).

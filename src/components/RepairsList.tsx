@@ -247,9 +247,10 @@ const RepairsList = () => {
               <Button
                 type="submit"
                 size="sm"
-                className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white dark:text-[#0D1117] border-none shrink-0 transition-all active:scale-95"
+                className="h-9 px-4 bg-brand-gradient hover:opacity-90 border-none shrink-0 transition-all active:scale-95"
+                style={{ color: 'var(--brand-foreground)' }}
               >
-                <Search className="h-4 w-4 mr-2" />
+                <Search className="h-4 w-4 mr-2" style={{ color: 'var(--brand-foreground)' }} />
                 <span className="font-medium">Search</span>
               </Button>
           </div>

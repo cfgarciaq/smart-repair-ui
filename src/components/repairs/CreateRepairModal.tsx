@@ -138,10 +138,11 @@ export function CreateRepairModal({ onSuccess }: CreateRepairModalProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="h-9 px-4 bg-brand-gradient hover:opacity-90 text-white dark:text-[#0D1117] border-none transition-all active:scale-95"
+          className="h-9 px-4 bg-brand-gradient hover:opacity-90 border-none transition-all active:scale-95"
+          style={{ color: 'var(--brand-foreground)' }}
         >
-          <Plus className="mr-2 h-4 w-4 text-white dark:text-[#0D1117]" />
-          <span className="text-white dark:text-[#0D1117] font-semibold">New Repair</span>
+          <Plus className="mr-2 h-4 w-4" style={{ color: 'var(--brand-foreground)' }} />
+          <span className="font-semibold">New Repair</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-background/95 backdrop-blur-xl border shadow-2xl">

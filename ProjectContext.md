@@ -4,14 +4,69 @@
 The frontend is a modern React 19 application built with Vite, Tailwind CSS, and Shadcn UI. It features a premium "Obsidian" aesthetic with Glassmorphism effects.
 
 ## Last Implemented Features
+- **UI/UX Refinement**:
+  - Refactored `RepairsList.tsx` search button and inputs for better contrast and visibility in light mode (#F8F9FA).
+  - Enhanced `CreateRepairModal.tsx` with branded "+ New Repair" button and formatted technician dropdown (Name - 🔧 Specialization).
+  - **Critical Fix**: Reverted button color scheme to original Obsidian/Pearl aesthetic (Dark in Light mode, Pearl in Dark mode) using `bg-brand-gradient` and `text-brand-foreground`.
+  - **UI Polish**: Removed `shadow-brand-glow` from primary buttons for a cleaner, flat look.
+  - **Input Fixes**:
+    - Corrected `SelectItem` hover/focus state in `CreateRepairModal.tsx` to be theme-adaptive (`focus:bg-black/5 dark:focus:bg-white/10`).
+    - Fixed Price Filter inputs in `RepairsList.tsx`: removed incorrect `pl-9` padding, adjusted internal spacing, and hidden browser-default number arrows for a cleaner, centered look.
+  - **UX Final Polish**:
+    - **Skeleton Loaders**: Implemented shimmer-effect skeletons (`bg-black/5 dark:bg-white/5`) for data fetching states.
+    - **Empty State**: Added a minimalist "No matches found" view with `SearchX` icon for zero-result searches.
+    - **Entry Animations**: Added subtle `fade-in` and `slide-up` transitions to table rows for a smoother data loading experience.
+    - **Error Feedback**: Integrated an elegant amber retry badge with a `RefreshCw` icon that appears near filters when the API fails.
+  - Hardened `repairsService.ts` to ensure technician metadata loads safely with defensive array checks.
 - **Obsidian Aesthetics**: Premium design with custom dark mode (`#0F0F0F`, `#353535`), grain textures, and neon accents.
-- **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, and Side Panels (Sheet).
+- **Glassmorphism**: Applied `backdrop-blur` and semi-transparent backgrounds to the Header, Footer, Side Panels (Sheet), and Filter Bar.
 - **Advanced Table UI**: Clickable headers for sorting (Date, Client, Device, Technician, Cost) with visual indicators and server-side integration.
+- **Technician Column**: Restored with `CircleUserRound` icon for better visual identification.
+- **Compact Filter Bar**: Single-row layout with glassmorphism inputs and improved spacing.
+- **Refactored Sidebar Actions**: Minimalist icon-only buttons (Pencil, Trash2, Save, X) with hover effects and collision avoidance.
+- **Editable Device Field**: Users can now edit the Device field in the repair details panel to correct typos or update information.
+- **Status Selection**: Added dropdown to change repair status (Pending, In Progress, Completed, etc.) directly from the detail panel.
+- **Robust Data Loading**: Improved error handling in modals to prevent white screens when API endpoints are temporarily unavailable.
 - **Theme Support**: Light/Dark mode toggle with automatic system preference detection.
 - **UI Rebranding**: Premium sticky header with "SMART REPAIR" typography and professional description.
 - **Pagination & Filtering**: Integrated search bar (case-insensitive) and price range filters with dynamic page sizes.
 - **Multilingual README**: Added support for Spanish, English, and French.
 - **Vercel Analytics**: Integrated `@vercel/analytics` for performance and visitor tracking.
+- **UI Polish**:
+  - Replaced the default Vite favicon with a thematic Wrench (🔧) emoji SVG for better brand identity.
+  - Improved contrast in the search-filtering bar for better readability in both light and dark modes.
+  - Added visitor instructions in the main dashboard.
+  - **Mobile Optimization**:
+    - Implemented responsive filter bar (vertical stack on mobile).
+    - Optimized table scannability by hiding non-critical columns (Date, Technician) on small screens.
+    - Refined Side Panel (Sheet) layout with a fixed footer for action buttons, improving mobile usability and avoiding collision with the close button.
+    - Fixed hardcoded "0" value in the Create Repair Modal by initializing the cost field as an empty string.
+- **UI Overhaul (Pearl & Deep Obsidian)**:
+  - Updated global theme colors: Light Mode (Pearl #F8F9FA) and Dark Mode (Deep Obsidian #0D1117).
+  - Applied brand gradients to search and primary buttons.
+  - Redesigned theme toggle with inverted color logic for better visual weight.
+  - Repositioned search button next to the search input for improved UX.
+  - Implemented sorting functionality for the Status column.
+  - Updated technician dropdown to show specialization metadata.
+- **Repair Deletion**: Implemented `deleteRepair` in `repairsService.ts` and a custom `DeleteRepairModal` component for a professional deletion workflow.
+- **Documentation Refactor**: Reorganized `Agents.md` following progressive disclosure principles, moving specialized conventions to `docs/conventions/`.
+- **Critical Fixes**:
+  - Fixed "White Screen of Death" in `CreateRepairModal.tsx` by adding defensive mapping (`Array.isArray`) and robust error handling.
+  - Resolved 404 error for `/api/technicians` by implementing the `TechniciansController` in the backend.
+  - Added `api/clients/all` endpoint to `ClientsController.cs` to provide a non-paginated list for frontend selectors.
+  - Fixed accessibility warnings in `CreateRepairModal.tsx` and `DeleteRepairModal.tsx` by adding `DialogDescription`.
+  - Added visual error feedback in the creation modal when data fails to load.
+
+## Backend Status
+- **Done**: Full CRUD operations implemented with FluentValidation and AutoMapper.
+
+## Current Milestone
+- **Sprint 3**: UI Implementation (Repair Management).
+
+## Commercial Roadmap
+- **Engine for SaaS**: Current CRUD operations serve as the core engine for a future SaaS product.
+- **Data Cleanup**: Plans for automated data cleanup and maintenance.
+- **Payment Integration**: Future integration with payment gateways for repair billing.
 
 ## Pending Technical Debt or Bugs
 - **Global State**: Consider implementing Context API or a state management library if the application grows.

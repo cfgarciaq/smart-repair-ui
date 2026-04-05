@@ -73,6 +73,13 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        'brand-gradient': 'linear-gradient(to right, var(--brand-start), var(--brand-end))',
+      },
+      boxShadow: {
+        'glass-light': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+        'brand-glow': '0 10px 15px -3px rgba(59, 130, 246, 0.3)',
+      },
     },
   },
   plugins: [tailwindcssAnimate],

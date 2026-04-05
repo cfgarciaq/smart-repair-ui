@@ -32,7 +32,16 @@ function App() {
           <h1 className="text-2xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground">
             SMART REPAIR
           </h1>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleTheme} 
+            className={`rounded-full transition-all duration-300 ${
+              theme === "dark" 
+                ? "bg-[#F8F9FA] text-[#21242A] hover:bg-[#F8F9FA]/90" 
+                : "bg-[#21242A] text-[#F8F9FA] hover:bg-[#21242A]/90"
+            }`}
+          >
             {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
           </Button>
         </div>
@@ -51,7 +60,7 @@ function App() {
           <div className="space-y-2">
             <h2 className="text-xl font-semibold tracking-tight">Note for visitors</h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-3xl">
-              First load may take a few seconds due to the server cold start.
+              First load may take a few seconds due to the server cold start. You can explore the system by searching for repairs, filtering by cost, or creating new repair entries. Click on any row to view and edit detailed information.
             </p>
           </div>
         </div>
